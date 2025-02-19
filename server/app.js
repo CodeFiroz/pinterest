@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/configDB.js";
+import authRoutes from "./routes/authroutes.js";
 
 // cofig dotenv
 config();
@@ -22,6 +23,8 @@ app.use(cors({
 
 
 connectDB();
+
+app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res)=>{
     res.send("Hwllo");
