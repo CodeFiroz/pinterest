@@ -16,7 +16,7 @@ function App() {
             <Route path="/" element={<InnerPage><Dashboard /></InnerPage>} />
             <Route path="/profile" element={<InnerPage><Profile /></InnerPage>} />
             <Route path="/new" element={<InnerPage><NewPost /></InnerPage>} />
-            <Route path="/post:id" element={<InnerPage><Post /></InnerPage>} />
+            <Route path="/post/:id" element={<InnerPage><Post /></InnerPage>} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
         </Routes>

@@ -39,6 +39,7 @@
 
 .post-image img{
     width: 100%;
+    border-radius: 20px;
 }
 
 .post-action{
@@ -51,8 +52,9 @@
 
 .post-action button{
     margin: 0px 5px;
-    padding: 10px 25px;
+    padding: 5px 15px;
     border-radius: 50px;
+    font-size: 16px;
     border: 0;
     outline: 0;
     color: #fff;
@@ -62,15 +64,22 @@
 }
 
 .post-action button i{
-    margin-right: 5px;
+    padding-top: 5px;
+    margin-right: 10px;
 }
 
 .post-action button.like{
+    border: 2px solid #ff4949;
+    color: #ff4949;
+}
+
+.post-action button.liked{
     background: #ff4949;
 }
 
 .post-action button.download{
     background: #20a1f8;
+    color: #fff;
 }
 
 .post-action button.save{
@@ -79,7 +88,7 @@
 
 .author{
     display: flex;
-    margin-top: 20px;
+    margin: 20px 0px;
     gap: 10px;
 }
 
@@ -97,7 +106,7 @@
 
 .comment-box{
     width: 100%;
-    height: 50%;
+    height: 58%;
     overflow-y: scroll;
 }
 
@@ -121,21 +130,23 @@
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 10px;
+    background: #fff;
 }
 
 .post-comment input{
     width: 100%;
     border: 0;
     outline: 0;
+    padding: 8px;
+    height: 40px;
 }
 
 .post-comment button{
     width: 50px;
-    height: 30px;
     background: #000;
     color: #fff;
     border: 0;
+    height: 40px;
     outline: 0;
     cursor: pointer;
 }
