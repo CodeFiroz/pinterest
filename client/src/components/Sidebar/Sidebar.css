@@ -1,0 +1,128 @@
+.sidebar{
+    width: 80px;
+    /* background: #000; */
+    padding: 30px 10px;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+}
+
+.top-bar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.logo a{
+    color: red;
+    text-decoration: none;
+    font-size: 32px;
+}
+
+.navbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.navbar li{
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+.navbar li span{
+    position: absolute;
+    top: 50%;
+    transform: scale(0) translateY(-50%);
+    display: inline-block;
+    font-size: 12px;
+    padding: 5px 10px;
+    background: #000;
+    color: #fff;
+    left: 50px;
+    border-radius: 50px;
+    transition: .3s ease-in-out;
+}
+
+.navbar li:hover span{
+    transform: scale(1) translateY(-50%);
+
+}
+
+
+
+.navbar li a{
+    color: #000;
+    text-decoration: none;
+}
+
+.navbar li a i{
+    font-size: 22px;
+    text-align: center;
+}
+
+.mobileNav{
+    display: none;
+}
+
+@media (max-width: 768px) {
+    
+    .sidebar{
+        display: none;
+    }
+
+
+
+.mobileNav{
+    position: fixed;
+    width: 95%;
+    bottom: 8px;
+    left: 50%;
+    border-radius: 80px;
+    transform: translateX(-50%);
+    background: #000;
+    padding: 8px;
+    display: block;
+    z-index: 9999;
+}
+
+.mobileNav ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+}
+
+.mobileNav ul li a{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50%; 
+}
+
+.mobileNav ul li a i{
+    margin-top: 4px;
+}
+
+.mobileNav ul li.active a{
+    background: #2c2c2c;
+    color: #fff;
+}
+
+}

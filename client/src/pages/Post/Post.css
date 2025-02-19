@@ -1,0 +1,168 @@
+.postContainer{
+    width: 80%;
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+}
+
+.backBtn{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 50%;
+    background: #929292;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+    margin-top: 20px;
+}
+
+.backBtn i{
+    margin-top: 5px;
+}
+
+.backBtn:hover{
+    background: #000;
+}
+
+.post{
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+}
+
+.post-image{
+    width: 100%;
+}
+
+.post-image img{
+    width: 100%;
+}
+
+.post-action{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.post-action button{
+    margin: 0px 5px;
+    padding: 10px 25px;
+    border-radius: 50px;
+    border: 0;
+    outline: 0;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.post-action button i{
+    margin-right: 5px;
+}
+
+.post-action button.like{
+    background: #ff4949;
+}
+
+.post-action button.download{
+    background: #20a1f8;
+}
+
+.post-action button.save{
+    background: rgba(255, 0, 34, 0.733);
+}
+
+.author{
+    display: flex;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.author img{
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.author p{
+    font-weight: 500;
+    font-style: italic;
+    margin-top: 3px;
+}
+
+.comment-box{
+    width: 100%;
+    height: 50%;
+    overflow-y: scroll;
+}
+
+.comment{
+    display: flex;
+    margin: 15px 0px;
+}
+
+.comment img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.comment-info p{
+    font-size: 14px;
+}
+
+.post-comment{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.post-comment input{
+    width: 100%;
+    border: 0;
+    outline: 0;
+}
+
+.post-comment button{
+    width: 50px;
+    height: 30px;
+    background: #000;
+    color: #fff;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .postContainer{
+        width: 100%;
+        padding: 10px;
+        grid-template-columns: 1fr;
+        margin: 0px auto;
+
+    }
+
+    .post{
+        grid-template-columns: 1fr;
+        gap: 0px;
+    }
+
+    .post-action{
+        margin-top: 0;
+    }
+
+    .backBtn{
+        position: absolute;
+        top: 80px;
+        z-index: 999;
+        left: 20px;
+    }
+
+}

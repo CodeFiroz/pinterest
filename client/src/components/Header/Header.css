@@ -1,0 +1,49 @@
+.header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.76);
+    backdrop-filter: blur(4px);
+}
+
+.searchBox{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.searchBox i{
+    margin-top: 5px;
+    color: #999;
+}
+
+.searchBox input{
+    width: 100%;
+    border: 0;
+    outline: 0;
+    margin-left: 10px;
+    font-size: 16px;
+    background: transparent;
+}
+
+
+.accountAvatar img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+@media (max-width: 768px) {
+    .header{
+        padding: 10px 15px;
+        height: auto;
+    }
+}

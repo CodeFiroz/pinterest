@@ -1,0 +1,95 @@
+.account-wrapper{
+    width: 100%;
+    height: 100vh;
+   background: #9e0101;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.account-box{
+    background: #fff;
+    width: 70%;
+    border-radius: 20px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.form-area{
+    padding: 30px;
+}
+
+.form-area h2{
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.form-area p{
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-area label{
+    font-size: 14px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.form-area .input-field{
+    width: 100%;
+    border: 2px solid #b4b4b4;
+    border-radius: 10px;
+    padding: 5px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 25px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.form-area .input-field input{
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-size: 16px;
+    padding: 4px 8px;
+    color: #525252;
+    font-weight: 500;
+}
+
+.form-area .input-field i{
+    color: #888;
+    font-size: 18px;
+}
+
+.form-area button{
+    width: 100%;
+    padding: 10px;
+    background: red;
+    color: #fff;
+    font-size: 15px;
+    border: 0;
+    outline: 0;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+
+.image-area{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.image-area img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
