@@ -23,7 +23,8 @@ const Profile = () => {
             <p>
                 @sarcastic.firoz
             </p>
-            <a href="#">Edit Profile</a>
+            <a href="#">Edit Profile </a> | 
+            <a href="#"> Logout</a>
 
         </div>
 

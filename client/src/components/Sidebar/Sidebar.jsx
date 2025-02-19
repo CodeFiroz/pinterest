@@ -1,7 +1,14 @@
 import './Sidebar.css';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
 
 const Sidebar = () => {
+    
+    const loc = useLocation();
+
+   
+
     return (
         <>
 
@@ -12,6 +19,7 @@ const Sidebar = () => {
                     <div className="logo">
                         <Link to="/">
                             <i className="fi fi-brands-pinterest"></i>
+                           
                         </Link>
                     </div>
 
@@ -72,15 +80,16 @@ const Sidebar = () => {
 
             <div className="mobileNav">
                 <ul>
-                    <li className='active'><Link to="/">
+                    <li className={loc.pathname == "/" ? 'active' : ''} ><Link to="/">
                         <i className="fi fi-rr-house-blank"></i>
+                        
                     </Link></li>
 
                     <li><a href="#">
                         <i className="fi fi-rr-search"></i>
                     </a></li>
 
-                    <li><Link to="/new">
+                    <li className={loc.pathname == "/new" ? 'active' : ''}><Link to="/new">
                     <i className="fi fi-rr-plus"></i>
                     </Link></li>
 
@@ -88,7 +97,7 @@ const Sidebar = () => {
                     <i className="fi fi-rr-bell"></i>
                     </a></li>
 
-                    <li><Link to="/profile">
+                    <li className={loc.pathname == "/profile" ? 'active' : ''}><Link to="/profile">
                     <i className="fi fi-rr-user"></i>
                     </Link></li>
                 </ul>

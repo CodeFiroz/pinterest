@@ -1,5 +1,5 @@
 import './sign-in.css'
-
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   return (
@@ -31,6 +31,10 @@ const Login = () => {
                 </div>
 
                 <button>Sign in</button>
+
+                <p className="info">
+                    New to pinterest <Link to="/signup">Register Here</Link>
+                </p>
 
             </div>
 

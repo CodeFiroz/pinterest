@@ -19,6 +19,6 @@
 
 @media (max-width: 760px) {
     .feed{
-        columns: 100px;
+        columns: 120px;
     }
 }

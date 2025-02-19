@@ -4,7 +4,7 @@ const Dashboard = () => {
   return (
     <div className="feed">
 
-        <div className="post">
+        <div className="feedPost">
             <img src="https://i.pinimg.com/236x/90/49/64/9049647b7f278b23151ec1f05f73cf9c.jpg" alt="" />
         </div>
 

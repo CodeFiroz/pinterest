@@ -105,15 +105,19 @@
     list-style: none;
 }
 
+
 .mobileNav ul li a{
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
     text-decoration: none;
     border-radius: 50%; 
+    font-size: 22px;
+    transition: .2s ease-in-out;
+
 }
 
 .mobileNav ul li a i{
@@ -121,8 +125,9 @@
 }
 
 .mobileNav ul li.active a{
-    background: #2c2c2c;
+    background: #ff0000;
     color: #fff;
+    transform: translateY(-20px) scale(1.3);
 }
 
 }
