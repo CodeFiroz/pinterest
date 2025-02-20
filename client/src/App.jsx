@@ -6,6 +6,7 @@ import NewPost from './pages/NewPost/NewPost'
 import Post from './pages/Post/Post'
 import Login from './pages/Auth/Login'
 import Signup from './pages/Auth/Signup'
+import ProtectRoute from "./components/ProtectRoute/ProtectRoute";
 
 function App() {
 
@@ -13,10 +14,10 @@ function App() {
     <>
       <Router>
         <Routes>
-            <Route path="/" element={<InnerPage><Dashboard /></InnerPage>} />
-            <Route path="/profile" element={<InnerPage><Profile /></InnerPage>} />
-            <Route path="/new" element={<InnerPage><NewPost /></InnerPage>} />
-            <Route path="/post/:id" element={<InnerPage><Post /></InnerPage>} />
+            <Route path="/" element={<ProtectRoute><InnerPage><Dashboard /></InnerPage></ProtectRoute>} />
+            <Route path="/profile" element={<ProtectRoute><InnerPage><Profile /></InnerPage></ProtectRoute>} />
+            <Route path="/new" element={<ProtectRoute><InnerPage><NewPost /></InnerPage></ProtectRoute>} />
+            <Route path="/post/:id" element={<ProtectRoute><InnerPage><Post /></InnerPage></ProtectRoute>} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
         </Routes>

@@ -33,7 +33,14 @@ export const register = async (req, res)=>{
 
         genrateAndSaveToken(newuser._id, res);
 
-        return res.status(201).json({success: true, message: "User registered successfully"});
+        const registeredUser = {
+            id: newuser._id,
+            name: newuser.name,
+            email: newuser.email,
+            pic: newuser.pic
+        }
+
+        return res.status(201).json({success: true, message: "User registered successfully", user: registeredUser});
 
     }catch(err){
         console.log("Error on register", err);        
@@ -60,11 +67,31 @@ export const signin = async (req, res)=>{
 
         genrateAndSaveToken(user._id, res);
 
-        return res.status(200).json({success: true, message: "User logged in successfully"});
+        const loggedinUser = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            pic: user.pic
+        }
+
+
+        return res.status(200).json({success: true, message: "User logged in successfully", user: loggedinUser});
 
         
     }catch(err){
         console.log("Error on signin", err);
+        return res.status(500).json({success: false, message: "Internal server error", err});
+        
+    }
+}
+
+export const checkAuth = async(req, res)=>{
+    try{
+
+        return res.status(200).json(req.user);
+
+    }catch(err){
+        console.log(`Error on checkAuth`, err);
         return res.status(500).json({success: false, message: "Internal server error", err});
         
     }
