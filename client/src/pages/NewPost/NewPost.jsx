@@ -39,7 +39,7 @@ const NewPost = () => {
   };
 
   const handleSubmit = async () => {
-    if (!title || !desc || !file) {
+    if (!file) {
       alert("Please fill in all fields and upload an image.");
       return;
     }

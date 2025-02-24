@@ -2,9 +2,11 @@ import './Profile.css';
 import { useState } from 'react';
 import Dashboard from '../Dashboard/Dashboard';
 import NewPost from '../NewPost/NewPost';
+import useAuthStore from '../../store/authStore';
 
 const Profile = () => {
 
+    const { authUser } = useAuthStore();
     const [activeTab, setActiveTab] = useState("tab1");
 
   const tabs = [
@@ -18,10 +20,10 @@ const Profile = () => {
 
         <div className="profileInfo">
 
-            <img src="https://i.pinimg.com/280x280_RS/94/a9/df/94a9df645c7364d82763b82034427586.jpg" alt="" />
-            <h4>Firoz</h4>
+            <img src={authUser.pic} alt="" />
+            <h4>{authUser.name}</h4>
             <p>
-                @sarcastic.firoz
+                {authUser.email}
             </p>
             <a href="#">Edit Profile </a> | 
             <a href="#"> Logout</a>

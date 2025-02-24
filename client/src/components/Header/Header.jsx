@@ -1,7 +1,13 @@
+import useAuthStore from '../../store/authStore';
 import './Header.css';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
+
+  const {authUser} = useAuthStore();
+
+  
+
   return (
     <div className="header">
 
@@ -12,7 +18,7 @@ const Header = () => {
 
         <div className="accountAvatar">
             <Link to="/profile">
-            <img src="https://i.pinimg.com/280x280_RS/94/a9/df/94a9df645c7364d82763b82034427586.jpg" alt="" />
+            <img src={authUser.pic} alt="" />
             </Link>
         </div>
 
