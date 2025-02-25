@@ -1,6 +1,6 @@
 import './Profile.css';
 import { useState } from 'react';
-import Dashboard from '../Dashboard/Dashboard';
+import MyPins from '../MyPins/MyPins';
 import NewPost from '../NewPost/NewPost';
 import useAuthStore from '../../store/authStore';
 
@@ -10,7 +10,7 @@ const Profile = () => {
     const [activeTab, setActiveTab] = useState("tab1");
 
   const tabs = [
-    { id: "tab1", label: "My Pins", content: <Dashboard /> },
+    { id: "tab1", label: "My Pins", content: <MyPins /> },
     { id: "tab2", label: "Saved", content: "This is the About section." },
     { id: "tab3", label: "New Pin", content: <NewPost /> },
   ];
@@ -25,7 +25,7 @@ const Profile = () => {
             <p>
                 {authUser.email}
             </p>
-            <a href="#">Edit Profile </a> | 
+          
             <a href="#"> Logout</a>
 
         </div>

@@ -1,6 +1,36 @@
 import './Post.css';
+import { useParams } from "react-router-dom"
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Post = () => {
+
+    const {id} = useParams();
+
+    const [pin, setPin] = useState({});
+
+    const fetchPost = async () => {
+      try {
+          const response = await axios.post(`http://localhost:4000/api/post/getpost/${id}`, { 
+              withCredentials: true 
+          });
+  
+          if (response.status === 200) {
+              setPin(response.data.post);
+          } else {
+              alert('Something went wrong');
+          }
+      } catch (err) {
+          alert(err.response?.data?.message || 'Something went wrong');
+          console.error("Error fetching posts:", err);
+      }
+  };
+  
+  useEffect(() => {
+      fetchPost();
+  }, []);
+  
+
   return (
     <>
 
@@ -13,7 +43,7 @@ const Post = () => {
         <div className="post">
 
             <div className="post-image">
-                <img src="https://i.pinimg.com/736x/ac/60/fc/ac60fc3e54dc83b997578ebc709ecf34.jpg" alt="" />
+                <img src={pin.image} alt="" />
             </div>
             <div className="post-info">
 
@@ -37,123 +67,20 @@ const Post = () => {
 
 
                 <div className="author">
-                <img src="https://i.pinimg.com/236x/58/60/35/5860357e4239442e8ba61cd8cccb7b28.jpg" alt="" />
+                <img src={pin.author?.pic} alt="" />
                 <p>
-                    Deela Folsom
+                    {pin.author?.name}
                 </p>
             </div>
 
-            <h5>
-                    10 Comments
-                </h5>
+                <h3>
+                {pin.title}
+                </h3>
+                <p className='desc'>
+                {pin.description}
+                </p>
 
-                <div className="comment-box">
-
-                    <div className="comment">
-                            <img src="https://i.pinimg.com/75x75_RS/b2/5a/af/b25aaf1e000388007fd4b3bfc00623bb.jpg" alt="" />
-                            <div className="comment-info">
-                                <p>
-                                    <b>magic </b> is he looking at mega gardevoir with veil?
-                                </p>
-
-                                <div className="comment-meta">
-                                   <small>
-                                    1 Year Ago
-                                   </small>
-                                </div>
-
-                            </div>
-                    </div>
-
-                    <div className="comment">
-                            <img src="https://i.pinimg.com/236x/ac/21/a4/ac21a4e9f488487567b0b05204ae1351.jpg" alt="" />
-                            <div className="comment-info">
-                                <p>
-                                    <b>Sunnythesillygoose </b> temos que concordar que os melhores ash são o alola ash e o primeiro
-                                </p>
-
-                                <div className="comment-meta">
-                                   <small>
-                                    3 Year Ago
-                                   </small>
-                                </div>
-
-                            </div>
-                    </div>
-
-                    <div className="comment">
-                            <img src="https://i.pinimg.com/236x/ac/21/a4/ac21a4e9f488487567b0b05204ae1351.jpg" alt="" />
-                            <div className="comment-info">
-                                <p>
-                                    <b>Sunnythesillygoose </b> temos que concordar que os melhores ash são o alola ash e o primeiro
-                                </p>
-
-                                <div className="comment-meta">
-                                   <small>
-                                    3 Year Ago
-                                   </small>
-                                </div>
-
-                            </div>
-                    </div>
-
-
-                    <div className="comment">
-                            <img src="https://i.pinimg.com/236x/ac/21/a4/ac21a4e9f488487567b0b05204ae1351.jpg" alt="" />
-                            <div className="comment-info">
-                                <p>
-                                    <b>Sunnythesillygoose </b> temos que concordar que os melhores ash são o alola ash e o primeiro
-                                </p>
-
-                                <div className="comment-meta">
-                                   <small>
-                                    3 Year Ago
-                                   </small>
-                                </div>
-
-                            </div>
-                    </div>
-
-                    <div className="comment">
-                            <img src="https://i.pinimg.com/236x/ac/21/a4/ac21a4e9f488487567b0b05204ae1351.jpg" alt="" />
-                            <div className="comment-info">
-                                <p>
-                                    <b>Sunnythesillygoose </b> temos que concordar que os melhores ash são o alola ash e o primeiro
-                                </p>
-
-                                <div className="comment-meta">
-                                   <small>
-                                    3 Year Ago
-                                   </small>
-                                </div>
-
-                            </div>
-                    </div>
-
-                    <div className="comment">
-                            <img src="https://i.pinimg.com/236x/ac/21/a4/ac21a4e9f488487567b0b05204ae1351.jpg" alt="" />
-                            <div className="comment-info">
-                                <p>
-                                    <b>Sunnythesillygoose </b> temos que concordar que os melhores ash são o alola ash e o primeiro
-                                </p>
-
-                                <div className="comment-meta">
-                                   <small>
-                                    3 Year Ago
-                                   </small>
-                                </div>
-
-                            </div>
-                    </div>  
-
-                </div>
-
-                <div className="post-comment">
-
-                <input type="text" placeholder='Add a comment' />
-                <button><i className="fi fi-rr-paper-plane"></i></button>
-                </div>
-
+          
             </div>
 
             

@@ -47,3 +47,12 @@
     border-color: red;
 }
 
+.post-info h3{
+    font-size: 16px;
+}
+
+.post-info p.desc{
+    font-size: 13px;
+    color: #888;
+    margin: 30px auto;
+}
