@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
+
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  width: 100%;
+  height: 100vh;
+  font-family: "Syne", serif;
+}
+
+:root{
+  --theme: #E60023;
+}
+
+.container{
+  padding: 40px;
+}
+
+.pin-grid{
+  width: 100%;
+  columns: 200px;
+	column-gap: 15px; 
+}
+
+@media (max-width: 768px) {
+  .container{
+    padding: 20px;
+    padding-bottom: 100px;
+  }
+  .pin-grid{
+    columns: 100px;
+  }
+}

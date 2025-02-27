@@ -1,0 +1,127 @@
+.header{
+    width: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding: 15px 50px;
+    z-index: 99;
+}
+
+.header .site-logo a{
+    display: flex;
+    font-size: 25px;
+    align-items: center;
+    color: var(--theme);
+    text-decoration: none;
+}
+
+.header .site-logo a span{
+    font-weight: 500;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.navbar{
+    background: #000;
+    border-radius: 40px;
+    display: inline-block;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+}
+
+.navbar ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    list-style: none;
+    gap: 10px;
+}
+
+.navbar ul a{
+    color: #fff;
+    text-decoration: none;
+    background: #383737;
+    padding: 8px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 30px;
+    min-width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    transition: .4s ease-in-out;
+
+}
+
+.navbar ul a span{
+    font-size: 14px;
+    display: block; 
+    font-size: 0px;
+    margin: 0;
+    overflow: hidden;
+    transition: .4s ease-in-out;
+}
+
+.navbar ul a.active{
+    background: var(--theme);
+}
+
+
+.navbar ul a:hover span,
+.navbar ul a.active span{
+    font-size: 14px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.account{
+    padding: 5px;
+    padding-right: 15px;
+    display: flex;
+    align-items: center;
+    background: #ffc6c6;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.account img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+
+@media (max-width: 768px) {
+
+    .header{
+        padding: 10px;
+    }
+
+    .account{
+        padding-right: 5px;
+    }
+
+    .account span{
+        display: none;
+    }
+
+    .account img{
+        margin-right: 0;
+    }
+
+    .navbar{
+        top: auto;
+        bottom: 20px;
+        width: 90%;
+    }
+}

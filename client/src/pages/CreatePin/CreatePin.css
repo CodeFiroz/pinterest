@@ -1,0 +1,90 @@
+.create-pin-wrapper{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.pin-image img{
+    width: 100%;
+    border-radius: 20px;
+}
+
+
+.pin-details .user-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.pin-details .user-info img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.pin-details button{
+    padding: 15px 40px;
+    color: #fff;
+    font-size: 14px;
+    border: 0;
+    outline: 0;
+    background: var(--theme);
+    border-radius: 30px;
+    font-family: "Syne", serif;
+    cursor: pointer;
+}
+
+.input{
+    position: relative;
+}
+
+.input label{
+    display: block;
+    font-size: 13px;
+    color: #3f3c3c;
+    background: #fff;
+    position: absolute;
+    top: -8px;
+    left: 10px;
+    padding: 5px 15px;
+    padding-bottom: 0;
+}
+
+.input input,
+.input textarea{
+    width: 100%;
+    display: block;
+    padding: 10px;
+    padding-top: 20px;
+    border-radius: 5px;
+    border: 2px solid #999;
+    outline: 0;
+    font-size: 16px;
+    font-family: "Syne", serif;
+    color: #222222;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.input textarea{
+    height: 100px;
+    resize: none;
+}
+
+.input input:focus,
+.input textarea:focus{
+    border-color: var(--theme);
+}
+
+.input input:focus ~ label,
+.input textarea:focus ~ label{
+    color: var(--theme);
+}
+
+@media (max-width: 768px) {
+    .create-pin-wrapper{
+        grid-template-columns: 1fr;
+    }
+}

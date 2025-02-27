@@ -1,0 +1,15 @@
+.pin-card{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.pin-card a img{
+    width: 100%;
+    border-radius: 10px;
+    transition: .3s ease-in-out;
+}
+
+.pin-card a img:hover{
+    filter: brightness(45%);
+}
+
