@@ -8,7 +8,7 @@ const CreatePin = () => {
 
             <div className="create-pin-wrapper">
 
-                <div className="pin-image">
+                <div className="upload-pin">
                     <input type="file" name="pin" id="pin" hidden />
                     <label htmlFor="pin">
                         <img src="https://i.pinimg.com/736x/7b/b8/df/7bb8df771efa01485f3dc78867de704a.jpg" alt="" />

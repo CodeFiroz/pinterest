@@ -91,6 +91,7 @@
     background: #ffc6c6;
     border-radius: 50px;
     cursor: pointer;
+    position: relative;
 }
 
 .account img{
@@ -100,6 +101,45 @@
     margin-right: 5px;
 }
 
+.account-option{
+    width: 200px;
+    border: 1px solid #e7e7e7;
+    background: #f3f3f3;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    border-radius: 10px;
+    transform: scale(0);
+    z-index: 999;
+}
+
+.account.active .account-option{
+    transform: scale(1);
+}
+
+.account ul{
+    padding: 10px;
+}
+
+.account li{
+    list-style: none;
+}
+
+.account li a{
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    /* background: #000; */
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.account li a:hover{
+    background: #b7b5b5;
+}
 
 @media (max-width: 768px) {
 
