@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom'
 const Header = () => {
 
     const navigation = useLocation().pathname;
+
     
 
     const [active, setActive] = useState(false)
@@ -30,7 +31,7 @@ const Header = () => {
         <div className="account-option">
             <ul>
                 <li>
-                    <Link to="/:id">
+                    <Link to="/firoz">
                         My Account 
                         <i className="bi bi-person"></i>
                     </Link>
@@ -90,7 +91,7 @@ const Header = () => {
             </li>
 
             <li>
-                <Link to="/u/" className={navigation.startsWith === "/u/" ? 'active' : ''}>
+                <Link to="/firoz" className={navigation === "/firoz" ? 'active' : ''}>
 
                     <i className="bi bi-person"></i>
                     <span>My Account</span>

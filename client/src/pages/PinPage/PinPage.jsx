@@ -31,14 +31,17 @@ const PinPage = () => {
 
         <button className='like'>
             <i className="bi bi-heart"></i>
-        </button>
+            <span>Like</span>
+        </button>   
 
         <button className='save'>
             <i className="bi bi-bookmark"></i>
+            <span>Save pin</span>
         </button>
 
         <button className='download'>
             <i className="bi bi-download"></i>
+            <span>Download</span>
         </button>
 
 </div>

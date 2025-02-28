@@ -53,9 +53,8 @@
 }
 
 .post-action button{
-    width: 40px;
-    height: 40px;   
-    border-radius: 50%;
+    padding: 8px 20px;
+    border-radius: 20px;
     border: 0;
     outline: 0;
     color: #fff;
@@ -63,12 +62,29 @@
     cursor: pointer;
 }
 
+.post-action button span{
+    margin-left: 10px;
+}
+
 .post-action button.like{
+    border: 2px solid var(--theme);
+    color: var(--theme);
+}
+
+.post-action button.like.liked{
     background: var(--theme);
+    color: #fff;
 }
 
 .post-action button.save{
+    color: #0598bd;
+    border: 2px solid #0598bd;
+}
+
+.post-action button.save.saved{
     background: #0598bd;
+    border: 2px solid #0598bd;
+    color: #fff;
 }
 
 .post-action button.download{
