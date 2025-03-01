@@ -121,7 +121,7 @@ export const forgotPassword = async (req, res)=>{
         }
 
         const checkUser = await User.findOne({
-            $or : [{username}, {email}]
+            $or : [{username}, {email : username}]
         });
 
         if(!checkUser){

@@ -68,6 +68,70 @@ export const Signin = async (formdata)=>{
     }
 }
 
+export const SendPasswordResetMail = async (formdata)=>{
+    try{
+        const response = await axios.post(
+           `${axiosLink}/forgot-password`, 
+            formdata, 
+            {
+                withCredentials: true
+            }
+         )
+
+         if (response.status !== 200){
+            return {
+                success: false,
+                error: response.data.message
+            }
+         }
+
+
+
+         return {
+            success: true,
+            user: response.data.user
+         }
+    
+    }catch(err){
+        return {
+            success: false,
+            error: err.response?.data?.message || "Something went wrong",
+        }
+    }
+}
+
+export const ResetOldPassword = async (password, token)=>{
+    try{
+        const response = await axios.post(
+           `${axiosLink}/reset-password/${token}`, 
+            password, 
+            {
+                withCredentials: true
+            }
+         )
+
+         if (response.status !== 200){
+            return {
+                success: false,
+                error: response.data.message
+            }
+         }
+
+
+
+         return {
+            success: true,
+            user: response.data.user
+         }
+    
+    }catch(err){
+        return {
+            success: false,
+            error: err.response?.data?.message || "Something went wrong",
+        }
+    }
+}
+
 export const Logout = async ()=>{
     try{
         const response = await axios.post(

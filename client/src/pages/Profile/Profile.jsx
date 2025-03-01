@@ -1,6 +1,7 @@
 import './Profile.css'
 import Pins from '../../components/Pins/Pins'
 import useAuthStore from '../../store/authStore'
+import { Link } from 'react-router-dom'
 
 const Profile = () => {
 
@@ -33,7 +34,7 @@ const Profile = () => {
             </div>
 
             <div className="action-buttons">
-                <a href="#">Edit Profile</a>
+                <Link to="/update">Edit Profile</Link>
             </div>
 
         </div>

@@ -1,19 +1,24 @@
 import './SignIn.css';
 import { useState } from 'react';
+import { ResetOldPassword } from '../../api/auth';
+import { useParams } from 'react-router-dom';
 
 const ResetPassword = () => {
   const [passwordType, setPasswordType] = useState("password");
   const [passwordIcon, setPasswordIcon] = useState("bi-lock");
   const [password, SetPassword] = useState("")
+  const [loading, setLoading] = useState(false);
+
+  const {token} = useParams();
 
   const showPassword = () => {
 
-    if (passwordType == "password"){ 
-      setPasswordIcon("bi-unlock") 
-      setPasswordType("text") 
-    }else { 
-      setPasswordIcon("bi-lock") 
-      setPasswordType("password") 
+    if (passwordType == "password") {
+      setPasswordIcon("bi-unlock")
+      setPasswordType("text")
+    } else {
+      setPasswordIcon("bi-lock")
+      setPasswordType("password")
     }
   }
 
@@ -38,13 +43,21 @@ const ResetPassword = () => {
   }
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validateForm()) {
       return false;
     } else {
-
-      return true;
+      setLoading(true)
+      const response = await ResetOldPassword(password, token);
+      if (!response.success) {
+        setError(response.error)
+        setLoading(false)
+      } else {
+        setLoading(false)
+        alert("Password Changed");
+        SetPassword("");
+      }
 
     }
 
@@ -75,14 +88,16 @@ const ResetPassword = () => {
                 type={passwordType}
                 name='password'
                 value={password}
-                onChange={(e)=> SetPassword(e.target.value)}
+                onChange={(e) => SetPassword(e.target.value)}
               />
               <i className={`bi ${passwordIcon}`} onClick={showPassword}></i>
             </div>
 
 
 
-            <button>Reset Password</button>
+            {
+              loading ? <button disabled>Wait...</button> : <button type='submit'>Reset Password</button>
+            }
 
           </form>
 

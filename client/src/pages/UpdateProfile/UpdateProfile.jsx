@@ -1,6 +1,10 @@
 import './UpdateProfile.css'
+import useAuthStore from '../../store/authStore'
 
 const UpdateProfile = () => {
+
+    const { user } = useAuthStore()
+
   return (
     <>
     <div className="container">
@@ -9,7 +13,7 @@ const UpdateProfile = () => {
 
     <div className="cover-image">
         <input type="file" name="cover" id="cover" hidden />
-            <label htmlFor="cover"><img src="https://i.pinimg.com/736x/7b/b8/df/7bb8df771efa01485f3dc78867de704a.jpg" alt="" /></label>
+            <label htmlFor="cover"><img src={user.cover} alt="" /></label>
         
 
         <p className="errors">
@@ -27,7 +31,7 @@ const UpdateProfile = () => {
             <label htmlFor="pic">
                 <div className="pic-upload">
                     <i className="bi bi-pencil-fill"></i>
-                    <img src="https://i.pinimg.com/736x/bf/1c/bb/bf1cbb9a00723bfe5e0a13ba021e8902.jpg" alt="" />
+                    <img src={user.pfp} alt="" />
                 </div>
             </label>
 
