@@ -35,14 +35,26 @@ export const signUp = async (req, res)=>{
             password: hashPassword
         });
 
-        if(newuser){
+        const user = await newuser.save()
+
+        if(user){
             genrateTokenAndSave(res, newuser._id);
             await sendEmail(newuser.email, "Welcome to pinterest by firoz", "welcome", { username: newuser.name, website_url: process.env.FRONTEND_URL });
         }
 
+        const senduser = {
+            name: user.name,
+            email: user.email,
+            username: user.username,
+            bio: user.bio,
+            pfp: user.pfp,
+            cover: user.cover,
+        }
+
         res.status(201).json({
             success: true, 
-            message: `account created.`
+            message: `account created.`,
+            user: senduser
         })
 
 
@@ -62,7 +74,7 @@ export const signIn = async (req, res)=>{
         }
 
         const checkUser = await User.findOne({
-            $or : [{username}, {email}]
+            $or : [{username}, {email: username}]
         });
 
         if(!checkUser){
@@ -77,9 +89,19 @@ export const signIn = async (req, res)=>{
 
         genrateTokenAndSave(res, checkUser._id);
 
-        res.status(201).json({
+        const senduser = {
+            name: checkUser.name,
+            email: checkUser.email,
+            username: checkUser.username,
+            bio: checkUser.bio,
+            pfp: checkUser.pfp,
+            cover: checkUser.cover,
+        }
+
+        res.status(200).json({
             success: true, 
-            message: `user logged in.`
+            message: `user logged in.`,
+            user: senduser
         })
 
 
@@ -182,6 +204,22 @@ export const verifyAuth = (req, res)=>{
         const { user } = req.user;
 
         res.status(200).json({user});
+
+    }catch(err){
+        console.log(`❌ verifyAuth controller error :: ${err}`);
+        return res.status(500).json({success: false, message: "Internal server error"});
+    }
+}
+
+export const logout = (req, res)=>{
+    try{
+        
+        res.clearCookie("authToken");
+
+        res.status(200).json({
+            success: true,
+            message: "logout succesfully ✅"
+        })
 
     }catch(err){
         console.log(`❌ verifyAuth controller error :: ${err}`);
