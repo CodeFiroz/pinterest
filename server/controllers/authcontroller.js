@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken"
 
 import User from '../models/usermodel.js'
 import { genrateTokenAndSave } from '../utils/genrateSigninToken.js';
-import { sendResetMail } from '../utils/sendResetEmail.js';
 import sendEmail from "../utils/sendEmail.js";
 
 export const signUp = async (req, res)=>{
