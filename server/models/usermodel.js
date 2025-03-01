@@ -34,12 +34,27 @@ const userSchema = mongoose.Schema({
         type: String,
         default: "https://res.cloudinary.com/dvfkgzbqc/image/upload/v1740749282/cover_nzlg5m.png"
     },
+    likedPin: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Pins'
+        }
+    ],
     savedPin: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Pins'
         }
-    ]
+    ],
+    resetToken: {
+        type: String,
+        default: null
+    },
+    resetTokenExpiry: {
+        type: String,
+        default: null
+    },
+
 },
 {timestamps: true}
 )

@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser"
 import cors from "cors";
 
 import { connectDB } from "./config/MongoDb.js";
+import authRoute from "./routes/authroutes.js";
 
 config(); // dotenv config
 
@@ -32,6 +33,11 @@ app.use(cors({
 
 // config middlewares
 
+
+
+app.use("/api/auth", authRoute);
+
+// apis endpoints
 
 app.listen(PORT, (err)=>{
     if(err){
