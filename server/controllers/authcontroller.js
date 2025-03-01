@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken"
 import User from '../models/usermodel.js'
 import { genrateTokenAndSave } from '../utils/genrateSigninToken.js';
 import { sendResetMail } from '../utils/sendResetEmail.js';
+import sendEmail from "../utils/sendEmail.js";
 
 export const signUp = async (req, res)=>{
     try{
@@ -37,6 +38,7 @@ export const signUp = async (req, res)=>{
 
         if(newuser){
             genrateTokenAndSave(res, newuser._id);
+            await sendEmail(newuser.email, "Welcome to pinterest by firoz", "welcome", { username: newuser.name, website_url: process.env.FRONTEND_URL });
         }
 
         res.status(201).json({
@@ -110,6 +112,7 @@ export const forgotPassword = async (req, res)=>{
               }, process.env.JWT_SECRET , { expiresIn: '15m' });
         
 
+        const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
         const hashToken = await bcrypt.hash(resetToken, 10)
 
         checkUser.resetToken = hashToken;
@@ -117,7 +120,8 @@ export const forgotPassword = async (req, res)=>{
 
         await checkUser.save();
 
-        sendResetMail(resetToken, checkUser.email)
+
+        await sendEmail(checkUser.email, "Password Reset Email", "reset-password", { username: checkUser.name, reset_link: resetLink });
        
         res.json({ message: "Password reset link sent to your email." });
        
@@ -163,7 +167,7 @@ export const resetPassword = async (req, res)=>{
         user.resetTokenExpiry = null;
 
         await user.save();
-
+        await sendEmail(user.email, "Password Changed !", "password-reset-confirmation", { username: user.name, website_url: process.env.FRONTEND_URL });
         return res.status(200).json({success: true, message: "Password reset."});
        
 
