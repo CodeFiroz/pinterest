@@ -10,28 +10,40 @@ import ResetPassword from "./pages/SignIn/ResetPassword"
 import SignIn from "./pages/SignIn/SignIn"
 import SignUp from "./pages/SignIn/Signup"
 import UpdateProfile from "./pages/UpdateProfile/UpdateProfile"
+import ProtectRoute from "./components/ProtectRoute/ProtectRoute"
+import AuthPage from "./components/AuthPage/AuthPage"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+
+import useAuthStore from "./store/authStore"
 
 function App() {
 
+  const {isAuthenticated, user} = useAuthStore();
 
   return (
     <>
 
     <Router>
-     <Header />
+
+      {
+        isAuthenticated ? <Header /> : ''
+      }
+     
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path={`/firoz`} element={<Profile />} />
-        <Route path="/new" element={<CreatePin />} />
-        <Route path="/update" element={<UpdateProfile />} />
-        <Route path="/saved" element={<SavedPin />} />
-        <Route path="/pin/:id" element={<PinPage />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/" element={<ProtectRoute><Home /></ProtectRoute>} />
+        {
+        isAuthenticated ? <Route path={`/${user.username}`} element={<ProtectRoute><Profile /></ProtectRoute>} /> : ''
+      }
+        
+        <Route path="/new" element={<ProtectRoute><CreatePin /></ProtectRoute>} />
+        <Route path="/update" element={<ProtectRoute><UpdateProfile /></ProtectRoute>} />
+        <Route path="/saved" element={<ProtectRoute><SavedPin /></ProtectRoute>} />
+        <Route path="/pin/:id" element={<ProtectRoute><PinPage /></ProtectRoute>} />
+        <Route path="/sign-in" element={<AuthPage><SignIn /></AuthPage>} />
+        <Route path="/sign-up" element={<AuthPage><SignUp /></AuthPage>} />
+        <Route path="/forgot-password" element={<AuthPage><ForgotPassword /></AuthPage>} />
+        <Route path="/reset-password" element={<AuthPage><ResetPassword /></AuthPage>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

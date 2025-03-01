@@ -1,5 +1,6 @@
 import './SignIn.css';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const ForgotPassword = () => {
 
@@ -77,7 +78,7 @@ const ForgotPassword = () => {
                         <button>Forgot Password</button>
                        
                         <p className="more-text">
-                                 Remembred password <a href="#">Sign in here.</a>
+                                 Remembred password <Link to="/sign-in">Sign in here.</Link>
                         </p>
 
                     </form>

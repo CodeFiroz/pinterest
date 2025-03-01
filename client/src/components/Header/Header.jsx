@@ -1,14 +1,32 @@
 import './Header.css'
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Logout } from '../../api/auth'
+import useAuthStore from '../../store/authStore'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
 
     const navigation = useLocation().pathname;
 
-    
+    const navigate = useNavigate();
 
-    const [active, setActive] = useState(false)
+    const {user, logoutUser} = useAuthStore();
+
+    const [active, setActive] = useState(false);
+
+    const handleLogout = async(e)=>{
+
+        e.preventDefault();
+
+        const response = await Logout();
+        if(!response.success){
+            alert(response.error)
+        }else{
+            logoutUser()
+            navigate('/sign-in');
+          }
+    }
 
   return (
    <>
@@ -25,13 +43,13 @@ const Header = () => {
   
 
     <div className={`account ${active ? 'active ' : ''}`} onClick={() => setActive(!active)}>
-        <img src="https://i.pinimg.com/736x/bf/1c/bb/bf1cbb9a00723bfe5e0a13ba021e8902.jpg" alt="" />
-        <span>User Account</span>
+        <img src={user.pfp} alt="" />
+        <span>{user.name}</span>
 
         <div className="account-option">
             <ul>
                 <li>
-                    <Link to="/firoz">
+                    <Link to={`/${user.username}`}>
                         My Account 
                         <i className="bi bi-person"></i>
                     </Link>
@@ -49,7 +67,7 @@ const Header = () => {
                     </Link>
                 </li>
                 <li>
-                    <a href="#">
+                    <a onClick={handleLogout}>
                         Log out
                         <i className="bi bi-box-arrow-in-right"></i>
                     </a>
@@ -91,7 +109,7 @@ const Header = () => {
             </li>
 
             <li>
-                <Link to="/firoz" className={navigation === "/firoz" ? 'active' : ''}>
+                <Link to={`/${user.username}`} className={navigation === `/${user.username}` ? 'active' : ''}>
 
                     <i className="bi bi-person"></i>
                     <span>My Account</span>

@@ -70,6 +70,11 @@
     margin-bottom: 30px;
 }
 
+.auth-form button:disabled{
+    cursor: not-allowed;
+    background: #999;
+}
+
 .auth-form p.more-text{
     text-align: center;
     color: #999;

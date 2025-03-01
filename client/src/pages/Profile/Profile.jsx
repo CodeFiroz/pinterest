@@ -1,7 +1,11 @@
 import './Profile.css'
 import Pins from '../../components/Pins/Pins'
+import useAuthStore from '../../store/authStore'
 
 const Profile = () => {
+
+    const { user } = useAuthStore();
+
   return (
     <>
 
@@ -13,18 +17,18 @@ const Profile = () => {
         <div className="profile_info">
 
             <div className="me">
-                <img src="https://i.pinimg.com/280x280_RS/ff/ca/b2/ffcab21c7a3390ec53c40bb039fcb814.jpg" alt="" />
+                <img src={user.pfp} alt="" />
                 <div>
-                    <h3>Moonsight Agency</h3>
+                    <h3>{user.name}</h3>
                     <p>
-                        @moonsight_agency
+                        @{user.username}
                     </p>
                 </div>
             </div>
 
             <div className="bio">
                 <p>
-                Design Agency · Branding&Identity | Web Design | Product Design
+               {user.bio}
                 </p>
             </div>
 
@@ -35,7 +39,7 @@ const Profile = () => {
         </div>
 
         <div className="feature_image">
-            <img src="https://i.pinimg.com/736x/7b/b8/df/7bb8df771efa01485f3dc78867de704a.jpg" alt="" />
+            <img src={user.cover} alt="" />
         </div>
 
 

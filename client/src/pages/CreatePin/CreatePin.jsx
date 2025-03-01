@@ -1,6 +1,10 @@
 import './CreatePin.css'
+import useAuthStore from "../../store/authStore"
 
 const CreatePin = () => {
+
+    const { user } = useAuthStore();
+
   return (
     <>
 
@@ -22,9 +26,9 @@ const CreatePin = () => {
                 <div className="pin-details">
 
                     <div className="user-info">
-                        <img src="https://i.pinimg.com/736x/bf/1c/bb/bf1cbb9a00723bfe5e0a13ba021e8902.jpg" alt="" />
+                        <img src={user.pfp} alt="" />
                         <p>
-                            Sarcastic Firoz 
+                            {user.name}
                         </p>
 
                       

@@ -1,5 +1,8 @@
 import './SignIn.css';
 import { useState } from 'react';
+import { Signin } from '../../api/auth';
+import useAuthStore from '../../store/authStore';
+import { Link } from 'react-router-dom';
 
 const SignIn = () => {
 
@@ -8,8 +11,15 @@ const SignIn = () => {
         password: ""
     })
 
+    const { Setlogin } = useAuthStore();
+
+
+
     const [passwordType, setPasswordType] = useState("password");
     const [passwordIcon, setPasswordIcon] = useState("bi-lock");
+
+    const [loading, setLoading] = useState(false);
+
 
     const [error, setError] = useState("");
 
@@ -51,13 +61,21 @@ const SignIn = () => {
   }
 
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = async (e)=>{
     e.preventDefault()
     if(!validateForm()){
       return false;
     }else{
 
-      return true;  
+     setLoading(true)
+           const response  = await Signin(formdata); 
+           if(!response.success){
+            setError(response.error)
+            setLoading(false)
+          }else{
+            Setlogin(response.user);
+            
+          }
       
     }
 
@@ -107,13 +125,15 @@ const SignIn = () => {
                             <i className={`bi ${passwordIcon}`} onClick={showPassword}></i>
                         </div>
 
-                        <button>Sign in</button>
+                        {
+              loading ? <button disabled>Wait...</button> : <button>Sign in</button>
+            }
                         <p className='more-text'>
-                            <a href="#">Forgot Password ?</a>
+                            <Link to="/forgot-password">Forgot Password ?</Link>
                         </p>
 
                         <p className="more-text">
-                            Already have an account <a href="#">Sign in here.</a>
+                            Already have an account <Link to="/sign-up">Register here.</Link>
                         </p>
 
                     </form>

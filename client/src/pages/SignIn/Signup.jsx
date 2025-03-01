@@ -1,7 +1,12 @@
 import './SignIn.css';
 import { useState } from 'react';
+import { Signup } from '../../api/auth';
+import useAuthStore from '../../store/authStore';
+import { Link } from 'react-router-dom';
 
 const SignUp = () => {
+
+  const { Setlogin } = useAuthStore();
 
   const [formdata, setFormData] = useState({
     name: "",
@@ -12,6 +17,7 @@ const SignUp = () => {
 
   const [passwordType, setPasswordType] = useState("password");
   const [passwordIcon, setPasswordIcon] = useState("bi-lock");
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -28,57 +34,68 @@ const SignUp = () => {
 
   const showPassword = () => {
 
-    if (passwordType == "password"){ 
-      setPasswordIcon("bi-unlock") 
-      setPasswordType("text") 
-    }else { 
-      setPasswordIcon("bi-lock") 
-      setPasswordType("password") 
+    if (passwordType == "password") {
+      setPasswordIcon("bi-unlock")
+      setPasswordType("text")
+    } else {
+      setPasswordIcon("bi-lock")
+      setPasswordType("password")
     }
   }
 
-  const validateForm = ()=>{
+  const validateForm = () => {
 
     setError("");
 
-    if(formdata.name == ""){
+    if (formdata.name == "") {
       setError("Please enter your name.")
       return false;
-    }else if(!nameRegex.test(formdata.name)){
+    } else if (!nameRegex.test(formdata.name)) {
       setError("invalid name expresion.")
       return false;
-    }else if(formdata.username == ""){
+    } else if (formdata.username == "") {
       setError("Please enter a username.")
       return false;
-    }else if(!usernameRegex.test(formdata.username)){
+    } else if (!usernameRegex.test(formdata.username)) {
       setError("Invalid username. Use 3-20 letters, numbers, dots, or underscores, but don't start or end with . or _")
       return false;
-    }else if(formdata.email == ""){
+    } else if (formdata.email == "") {
       setError("Please enter a email address.")
       return false;
-    }else if(!emailRegex.test(formdata.email)){
+    } else if (!emailRegex.test(formdata.email)) {
       setError("Invalid email address.")
       return false;
-    }else if(formdata.password == ""){
+    } else if (formdata.password == "") {
       setError("Please create a password")
       return false;
-    }else if(formdata.password.length < 5){
+    } else if (formdata.password.length < 5) {
       setError("Password must be 6  characters long")
       return false;
-    }else{
+    } else {
       return true;
     }
 
   }
 
-  const handleSubmit = (e)=>{
-    e.preventDefault()
-    if(!validateForm()){
-      return false;
-    }else{
+  const handleSubmit = async (e) => {
 
-      return true;  
-      
+    setLoading(false)
+
+    e.preventDefault()
+    if (!validateForm()) {
+      return false;
+    } else {
+
+      setLoading(true)
+      const response = await Signup(formdata);
+
+      if (!response.success) {
+        setError(response.error)
+        setLoading(false)
+      } else {
+        Setlogin(response.user);
+      }
+
     }
 
 
@@ -150,12 +167,15 @@ const SignUp = () => {
               <i className={`bi ${passwordIcon}`} onClick={showPassword}></i>
             </div>
 
-            <button>Register</button>
+            {
+              loading ? <button disabled>Wait...</button> : <button>Register</button>
+            }
+
 
 
 
             <p className="more-text">
-              Already have an account <a href="#">Sign in here.</a>
+              Already have an account <Link to="/sign-in">Sign in here.</Link>
             </p>
 
           </form>
