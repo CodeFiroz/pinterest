@@ -9,6 +9,12 @@ const PinPage = () => {
                 <div className="pin-page">
                     <div className="pin-image">
                         <img src="https://i.pinimg.com/736x/51/81/e2/5181e204f321a9ff66bc8ce79fd8476e.jpg" alt="" />
+
+                        <div className="author-menu">
+                            <button><i className="bi bi-pen-fill"></i></button>
+                            <button><i className="bi bi-trash-fill"></i></button>
+                        </div>
+
                     </div>
 
 
