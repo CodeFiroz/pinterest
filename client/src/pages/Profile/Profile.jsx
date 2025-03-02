@@ -29,7 +29,7 @@ const Profile = () => {
 
             <div className="bio">
                 <p>
-               {user.bio}
+                <pre>{user.bio}</pre>
                 </p>
             </div>
 

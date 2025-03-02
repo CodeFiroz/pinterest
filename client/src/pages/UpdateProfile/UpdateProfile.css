@@ -5,10 +5,33 @@
     gap: 20px;
 }
 
+.cover-image{
+    position: relative;
+}
+
 .cover-image img{
     width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
     border-radius: 20px;
+    cursor: pointer;
 }
+
+.cover-image .cover-icon{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
 
 .pic-upload {
     width: 120px;
@@ -37,6 +60,7 @@
     height: 90px;
     margin: 0px auto;
     object-fit: cover;
+    aspect-ratio: 1/1;
     border-radius: 50%;
     cursor: pointer;
     border: 5px solid var(--theme);
@@ -65,6 +89,11 @@
     border-radius: 30px;
     font-family: "Syne", serif;
     cursor: pointer;
+}
+
+.pin-details button:disabled{
+    cursor: not-allowed;
+    background: #999;
 }
 
 .input{

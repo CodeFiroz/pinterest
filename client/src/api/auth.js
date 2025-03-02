@@ -132,6 +132,41 @@ export const ResetOldPassword = async (password, token)=>{
     }
 }
 
+export const UpdateProfileInfo = async (formdata)=>{
+    try{
+        const response = await axios.post(
+           `${axiosLink}/update`, 
+            formdata, 
+            {
+                headers : {
+                    "Content-Type": "multipart/form-data",
+                },
+                withCredentials: true,
+            }
+         )
+
+         if (response.status !== 200){
+            return {
+                success: false,
+                error: response.data.message
+            }
+         }
+
+
+
+         return {
+            success: true,
+            user: response.data.user
+         }
+    
+    }catch(err){
+        return {
+            success: false,
+            error: err.response?.data?.message || "Something went wrong",
+        }
+    }
+}
+
 export const verify = async ()=>{
     try{
         const response = await axios.get(
