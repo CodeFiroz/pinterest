@@ -5,6 +5,7 @@ import cors from "cors";
 
 import { connectDB } from "./config/MongoDb.js";
 import authRoute from "./routes/authroutes.js";
+import pinRoute from "./routes/pinroute.js";
 
 config(); // dotenv config
 
@@ -36,6 +37,7 @@ app.use(cors({
 
 
 app.use("/api/auth", authRoute);
+app.use("/api/pin", pinRoute);
 
 // apis endpoints
 
