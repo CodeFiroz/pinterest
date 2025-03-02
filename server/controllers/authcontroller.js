@@ -5,6 +5,7 @@ import User from '../models/usermodel.js'
 import { genrateTokenAndSave } from '../utils/genrateSigninToken.js';
 import sendEmail from "../utils/sendEmail.js";
 
+
 export const signUp = async (req, res)=>{
     try{
 
@@ -194,6 +195,46 @@ export const resetPassword = async (req, res)=>{
 
     }catch(err){
         console.log(`❌ resetPassword controller error :: ${err}`);
+        return res.status(500).json({success: false, message: "Internal server error"});
+    }
+}
+
+export const updateProfile = async (req, res)=>{
+    try{
+
+        const { user } = req.user;
+        const userId = user._id;
+        const { name, bio } = req.body;        
+
+        let updateData = { name, bio}
+
+        
+
+        if (req.files.pfp) updateData.pfp = req.files.pfp[0].path;
+        if (req.files.cover) updateData.cover = req.files.cover[0].path;
+
+        const updatedUser = await User.findByIdAndUpdate(userId, updateData, {new: true});
+
+        if(!updateData){
+            return res.status(400).json({success: false, message: "failed to update profile info"});
+        }
+
+        const sendUser = {
+            name: updatedUser.name,
+            email: updatedUser.email,
+            username: updatedUser.username,
+            bio: updatedUser.bio,
+            pfp: updatedUser.pfp,
+            cover: updatedUser.cover,
+        }
+        
+
+        
+        return res.status(200).json({ success: true, message: "Profile updated successfully", user: sendUser });
+
+
+    }catch(err){
+        console.log(`❌ updateProfile controller error :: ${err}`);
         return res.status(500).json({success: false, message: "Internal server error"});
     }
 }
