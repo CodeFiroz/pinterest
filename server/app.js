@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(cors({
   "origin": [ClientUrl],
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true
+  credentials: true,
 }));
 
 // config middlewares

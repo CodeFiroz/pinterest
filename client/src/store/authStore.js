@@ -1,5 +1,6 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
+import { Logout } from "../api/auth";
 
 const useAuthStore = create(
     persist(
@@ -12,9 +13,12 @@ const useAuthStore = create(
             Setlogin: (user)=>{
                 set({ isAuthenticated: true, user: user });
             },
-            logoutUser: ()=>{
-                set({ isAuthenticated: false, user: null });
-                localStorage.removeItem("auth-storage"); 
+            logoutUser: async ()=>{
+                const loggingOut = await Logout();
+                if(loggingOut.success){
+                    set({ isAuthenticated: false, user: null });
+                    localStorage.removeItem("auth-storage"); 
+                }
             },
         }),
         {

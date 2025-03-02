@@ -8,6 +8,8 @@ export const protectRoute = async (req, res, next)=>{
 
         const token = req.cookies.authToken;
 
+        
+        
         if(!token){
             return res.status(401).json({success: false, message: "Unauthoried - invalid token."});
         }
@@ -19,14 +21,17 @@ export const protectRoute = async (req, res, next)=>{
             return res.status(401).json({ success: false, message: "Unauthorized - Invalid or expired token." });
         }
 
-        const user = await User.findById(decode.userid).select("_id name email pfp cover");
+        const userId = decoded.userid;
+
+        const user = await User.findOne({_id : userId}).select("_is name email username pfp cover");
         
         if(!user){
             return res.status(401).json({success: false, message: "User not found - Invalid token"});
         }
         
         
-        req.user = user;
+        
+        req.user = {user};
 
         next();
 

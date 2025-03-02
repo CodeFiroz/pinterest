@@ -2,8 +2,12 @@ import './SignIn.css';
 import { useState } from 'react';
 import { ResetOldPassword } from '../../api/auth';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ResetPassword = () => {
+
+  const navigate = useNavigate();
+
   const [passwordType, setPasswordType] = useState("password");
   const [passwordIcon, setPasswordIcon] = useState("bi-lock");
   const [password, SetPassword] = useState("")
@@ -38,12 +42,16 @@ const ResetPassword = () => {
     } else if (password.length < 5) {
       setError("Password must be 6  characters long")
       return false;
+    }else{
+      return true;
     }
 
   }
 
 
   const handleSubmit = async (e) => {
+    console.log(password);
+    
     e.preventDefault()
     if (!validateForm()) {
       return false;
@@ -57,6 +65,7 @@ const ResetPassword = () => {
         setLoading(false)
         alert("Password Changed");
         SetPassword("");
+        navigate('/sign-in')
       }
 
     }

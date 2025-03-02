@@ -104,7 +104,7 @@ export const ResetOldPassword = async (password, token)=>{
     try{
         const response = await axios.post(
            `${axiosLink}/reset-password/${token}`, 
-            password, 
+            {password}, 
             {
                 withCredentials: true
             }
@@ -132,9 +132,39 @@ export const ResetOldPassword = async (password, token)=>{
     }
 }
 
+export const verify = async ()=>{
+    try{
+        const response = await axios.get(
+           `${axiosLink}/verify`, 
+            {
+                withCredentials: true
+            }
+         )
+
+         if (response.status !== 200){
+            return {
+                success: false,
+                error: response.data.message
+            }
+         }
+
+         
+
+         return {
+            success: true,
+         }
+    
+    }catch(err){
+        return {
+            success: false,
+            error: err.response?.data?.message || "Internal Server Error",
+        }
+    }
+}
+
 export const Logout = async ()=>{
     try{
-        const response = await axios.post(
+        const response = await axios.get(
            `${axiosLink}/logout`, 
             {
                 withCredentials: true

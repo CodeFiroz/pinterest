@@ -106,7 +106,7 @@ export const signIn = async (req, res)=>{
 
 
     }catch(err){
-        console.log(`❌ sighIn controller error :: ${err}`);
+        console.log(`❌ signIn controller error :: ${err}`);
         return res.status(500).json({success: false, message: "Internal server error"});
     }
 }
@@ -203,7 +203,9 @@ export const verifyAuth = (req, res)=>{
         
         const { user } = req.user;
 
-        res.status(200).json({user});
+        
+
+        res.status(200).json({success: true, user});
 
     }catch(err){
         console.log(`❌ verifyAuth controller error :: ${err}`);
