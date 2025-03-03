@@ -1,56 +1,106 @@
+import { useEffect, useState } from 'react';
 import './PinPage.css'
+import { useNavigate, useParams } from "react-router-dom"
+import { getPinDetails } from '../../api/pins';
 
 const PinPage = () => {
+
+
+
+    
+    const [pin, setPin] = useState({});
+    const navigate = useNavigate();
+    const { pinId } = useParams();
+
+    useEffect(() => {
+        const pinInfo = async () => {
+            try {
+                const response = await getPinDetails(pinId);
+
+                if (!response.success) {
+                    // navigate('/404');
+                    return;
+                }
+
+                setPin(response.pin);
+            } catch (error) {
+                console.error("Error fetching pin details:", error);
+                // navigate('/404');
+            }
+        };
+
+        if (pinId) {
+            pinInfo();
+        }
+    }, [pinId, navigate]); // Add dependencies to ensure proper re-fetching
+    
+
+    
+
     return (
         <>
 
             <div className="container">
 
                 <div className="pin-page">
+
                     <div className="pin-image">
-                        <img src="https://i.pinimg.com/736x/51/81/e2/5181e204f321a9ff66bc8ce79fd8476e.jpg" alt="" />
+
+
+                        <img src={pin.image} alt="" />
 
                         <div className="author-menu">
-                            <button><i className="bi bi-pen-fill"></i></button>
-                            <button><i className="bi bi-trash-fill"></i></button>
+                            <button>
+                                <i className="bi bi-pen-fill"></i>
+                            </button>
+                            <button>
+                                <i className="bi bi-trash-fill"></i>
+                            </button>
                         </div>
-
                     </div>
+
+
+
 
 
                     <div className="pin-info">
                         <div className="user-info">
-                            <img src="https://i.pinimg.com/736x/bf/1c/bb/bf1cbb9a00723bfe5e0a13ba021e8902.jpg" alt="" />
+                            <img src={pin.creator?.pfp} alt="" />
                             <p>
-                                Sarcastic Firoz
+                                {
+                                    pin.creator?.name
+                                }
                             </p>
                         </div>
 
                         <h3>
-                        Best in the business 😎
+
+                            {pin.title}
                         </h3>
                         <p className='description'>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa voluptatem natus laudantium dolor tempore, nesciunt harum nostrum iste repudiandae laboriosam.
+                            {
+                                pin.description
+                            }
                         </p>
 
-<div className="post-action">
+                        <div className="post-action">
 
-        <button className='like'>
-            <i className="bi bi-heart"></i>
-            <span>Like</span>
-        </button>   
+                            <button className='like'>
+                                <i className="bi bi-heart"></i>
+                                <span>Like</span>
+                            </button>
 
-        <button className='save'>
-            <i className="bi bi-bookmark"></i>
-            <span>Save pin</span>
-        </button>
+                            <button className='save'>
+                                <i className="bi bi-bookmark"></i>
+                                <span>Save pin</span>
+                            </button>
 
-        <button className='download'>
-            <i className="bi bi-download"></i>
-            <span>Download</span>
-        </button>
+                            <button className='download'>
+                                <i className="bi bi-download"></i>
+                                <span>Download</span>
+                            </button>
 
-</div>
+                        </div>
 
 
                     </div>

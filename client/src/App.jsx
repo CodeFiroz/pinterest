@@ -59,7 +59,7 @@ function App() {
           <Route path="/new" element={<ProtectRoute><CreatePin /></ProtectRoute>} />
           <Route path="/update" element={<ProtectRoute><UpdateProfile /></ProtectRoute>} />
           <Route path="/saved" element={<ProtectRoute><SavedPin /></ProtectRoute>} />
-          <Route path="/pin/:id" element={<ProtectRoute><PinPage /></ProtectRoute>} />
+          <Route path="/pin/:pinId" element={<ProtectRoute><PinPage /></ProtectRoute>} />
           <Route path="/sign-in" element={<AuthPage><SignIn /></AuthPage>} />
           <Route path="/sign-up" element={<AuthPage><SignUp /></AuthPage>} />
           <Route path="/forgot-password" element={<AuthPage><ForgotPassword /></AuthPage>} />

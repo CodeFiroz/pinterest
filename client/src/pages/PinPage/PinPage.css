@@ -9,7 +9,7 @@
     width: 100%;
     border-radius: 20px;
     text-align: center;
-    background: #413434;
+    /* background: var(--themeColor); */
     position: relative;
 }
 

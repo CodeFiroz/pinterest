@@ -1,4 +1,5 @@
 import './Pins.css'
+import { Link } from "react-router-dom"
 
 
 const Pins = (props) => {
@@ -6,9 +7,9 @@ const Pins = (props) => {
     <>
     
       <div className="pin-card">
-        <a href="#">
+        <Link to={`/pin/${props.id}`} title={props.title}>
           <img src={props.img} alt="" />
-        </a>
+        </Link>
       </div>
 
     </>
