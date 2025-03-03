@@ -17,37 +17,47 @@ export const getPins = async (req, res)=>{
     }
 }
 
-export const newPin = async (req, res)=>{
-    try{
-
-        console.log(req.file);
+export const newPin = async (req, res) => {
+    try {
+       
         const { title, description } = req.body;
-        const pin  = req.file.path;
-        const user = req.user;
+        const { user } = req.user;
 
 
-        if(!title){
-            return res.status(400).json({success: false, message: "Please add a title"});
+        // Ensure title is provided
+        if (!title) {
+            return res.status(400).json({ success: false, message: "Please add a title" });
         }
 
+        
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: "Please upload an image" });
+        }
+
+        
+        const pin = req.file.path;
+
+        
         const newPin = new Pin({
             title,
             description,
-            Image: pin,
+            image: pin, 
             creator: user._id
         });
 
+        
         const savedPin = await newPin.save();
 
-        if(!savedPin){
-            return res.status(400).json({success: false, message: "Failed to save pin"});
+        if (!savedPin) {
+            return res.status(400).json({ success: false, message: "Failed to save pin" });
         }
 
-        return res.status(201).json({success: true, message: "Pin saved successfully", pin: savedPin._id});
+        return res.status(201).json({ success: true, message: "Pin saved successfully", pin: savedPin._id });
 
-    }catch(err){
-        console.log(`❌ newPin controller error :: ${err}`);
-        return res.status(500).json({success: false, message: "Internal server error"});
+    } catch (err) {
+        console.error(`❌ newPin controller error :: ${err.message}`);
+        return res.status(500).json({ success: false, message: "Internal server error" });
     }
-}
+};
+
 
