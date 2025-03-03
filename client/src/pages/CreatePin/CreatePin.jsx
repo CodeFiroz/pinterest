@@ -80,6 +80,7 @@ const CreatePin = () => {
         
         
         if(!validateForm()){
+            setLoading(false)
             return false;
         }
 

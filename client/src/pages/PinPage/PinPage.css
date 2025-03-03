@@ -11,6 +11,21 @@
     text-align: center;
     /* background: var(--themeColor); */
     position: relative;
+    overflow-y: scroll;
+    max-height: 800px;
+    padding: 20px;
+
+}
+
+.pin-image::-webkit-scrollbar{
+    width: 5px;
+    border-radius: 5px;
+    background: #000;
+}
+
+.pin-image::-webkit-scrollbar-thumb{
+    border-radius: 5px;
+    background: #afaaaa;
 }
 
 .pin-image .author-menu{
@@ -37,11 +52,14 @@
 }
 
 .pin-image img{
-    height: 100%;
     width: auto;
+    max-width: 70%;
+    object-fit: cover;
+    object-position: top;
+    min-width: 30%;
     margin: 0px auto;
-    max-height: 400px;
     border-radius: 0;
+    border-radius: 20px;
 }
 
 .pin-info{

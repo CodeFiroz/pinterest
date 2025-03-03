@@ -5,6 +5,9 @@
 
 .pin-card a img{
     width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    object-position: top;
     border-radius: 10px;
     transition: .3s ease-in-out;
 }
