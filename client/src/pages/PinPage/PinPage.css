@@ -18,7 +18,7 @@
 }
 
 .pin-image::-webkit-scrollbar{
-    width: 5px;
+    width: 0px;
     border-radius: 5px;
     background: #000;
 }
@@ -40,11 +40,11 @@
 }
 
 .pin-image .author-menu button{
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    background: #fff;
-    color: var(--theme);
+    background: var(--theme);
+    color: #fff;
     border: 0;
     outline: 0;
     font-size: 18px;
@@ -94,7 +94,8 @@
     gap: 20px;
 }
 
-.post-action button{
+.post-action button,
+.post-action a{
     padding: 8px 20px;
     border-radius: 20px;
     border: 0;
@@ -103,9 +104,11 @@
     font-size: 18px;
     cursor: pointer;
     background: #fff;
+    text-decoration: none;
 }
 
-.post-action button span{
+.post-action button span,
+.post-action a span{
     margin-left: 10px;
 }
 
@@ -131,7 +134,7 @@
     color: #fff;
 }
 
-.post-action button.download{
+.post-action a.download{
     background: #6a05bd;
     border: 2px solid #6a05bd;
 }

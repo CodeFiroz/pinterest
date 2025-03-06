@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import './PinPage.css'
 import { useNavigate, useParams } from "react-router-dom"
 import { getPinDetails } from '../../api/pins';
+import useAuthStore from '../../store/authStore';
 
 const PinPage = () => {
 
 
-
+    const { user } = useAuthStore();
     
     const [pin, setPin] = useState({});
     const navigate = useNavigate();
@@ -34,6 +35,16 @@ const PinPage = () => {
         }
     }, [pinId, navigate]); // Add dependencies to ensure proper re-fetching
     
+    const deletePin = async ()=>{
+        const response = await deletePin(pinId);
+
+                if (!response.success) {
+                    alert(response.error);
+                    return;
+                }else{
+                    navigate('/');
+                }
+    }
 
     
 
@@ -49,14 +60,18 @@ const PinPage = () => {
 
                         <img src={pin.image} alt="" />
 
-                        <div className="author-menu">
+                        {
+                            user.id == pin.creator?._id ? <div className="author-menu">
                             <button>
                                 <i className="bi bi-pen-fill"></i>
                             </button>
-                            <button>
+                            <button onClick={deletePin}>
                                 <i className="bi bi-trash-fill"></i>
                             </button>
-                        </div>
+                        </div> : ''
+                        }
+
+                        
                     </div>
 
 
@@ -95,10 +110,10 @@ const PinPage = () => {
                                 <span>Save pin</span>
                             </button>
 
-                            <button className='download'>
+                            <a href={pin.image} className='download' target='_blank' download>
                                 <i className="bi bi-download"></i>
                                 <span>Download</span>
-                            </button>
+                            </a>
 
                         </div>
 

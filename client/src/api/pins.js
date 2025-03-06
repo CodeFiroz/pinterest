@@ -104,3 +104,37 @@ export const getAllPins = async ()=>{
         }
     }
 }
+
+export const deletePin = async (pinId)=>{
+    try{
+
+        const response = await axios.post(
+            `${axiosLink}/delete`,  
+            {
+             pinId: pinId
+            },
+             {
+                 withCredentials: true,
+             }
+          )
+ 
+          if (response.status !== 201){
+             return {
+                 success: false,
+                 error: response.data.message
+             }
+          }
+ 
+        
+          return {
+             success: true,
+             pins: response.data.pins
+          }
+
+    }catch(err){
+        return {
+            success: false,
+            error: err.response?.data?.message || "Something went wrong",
+        }
+    }
+}
