@@ -70,16 +70,49 @@
 }
 
 
+<<<<<<< HEAD
 .pin_header .action_menu div{
     display: inline-flex;
+=======
+}
+
+.pin-image::-webkit-scrollbar{
+    width: 0px;
+    border-radius: 5px;
+    background: #000;
+}
+
+.pin-image::-webkit-scrollbar-thumb{
+    border-radius: 5px;
+    background: #afaaaa;
+}
+
+.pin-image .author-menu{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+>>>>>>> e3bee83f809e977ea3e449a3b8ee485abc7948f7
     align-items: center;
 }
 
+<<<<<<< HEAD
 .pin_header .action_menu div span{
     font-size: 20px;
     color: #555353;
     margin-left: 10px;
     margin-top: -5px;
+=======
+.pin-image .author-menu button{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--theme);
+    color: #fff;
+    border: 0;
+    outline: 0;
+    font-size: 18px;
+    cursor: pointer;
+>>>>>>> e3bee83f809e977ea3e449a3b8ee485abc7948f7
 }
 
 .pin_header .action_menu div button{
@@ -89,15 +122,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
+<<<<<<< HEAD
+=======
+    gap: 20px;
+}
+
+.post-action button,
+.post-action a{
+    padding: 8px 20px;
+    border-radius: 20px;
+>>>>>>> e3bee83f809e977ea3e449a3b8ee485abc7948f7
     border: 0;
     outline: 0;
     background: transparent;
     font-size: 16px;
     cursor: pointer;
+<<<<<<< HEAD
 }
 
 .pin_header .action_menu div button i{
     margin-top: 3px;
+=======
+    background: #fff;
+    text-decoration: none;
+}
+
+.post-action button span,
+.post-action a span{
+    margin-left: 10px;
+>>>>>>> e3bee83f809e977ea3e449a3b8ee485abc7948f7
 }
 
 .pin_header .action_menu div button:hover{
@@ -137,9 +190,15 @@
     cursor: pointer;
 }
 
+<<<<<<< HEAD
 .pin_header .save-btn.saved{
     background: #a1a1a1;
     color: #000;
+=======
+.post-action a.download{
+    background: #6a05bd;
+    border: 2px solid #6a05bd;
+>>>>>>> e3bee83f809e977ea3e449a3b8ee485abc7948f7
 }
 
 .pin_header .save-btn i{

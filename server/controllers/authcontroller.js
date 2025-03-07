@@ -92,7 +92,11 @@ export const signIn = async (req, res)=>{
         genrateTokenAndSave(res, checkUser._id);
 
         const senduser = {
+<<<<<<< HEAD
             id: checkUser._id,
+=======
+            id: checkUser._id, 
+>>>>>>> e3bee83f809e977ea3e449a3b8ee485abc7948f7
             name: checkUser.name,
             email: checkUser.email,
             username: checkUser.username,
@@ -222,6 +226,7 @@ export const updateProfile = async (req, res)=>{
         }
 
         const sendUser = {
+            id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
             username: updatedUser.username,

@@ -69,7 +69,7 @@ export const pinGet = async (req, res) => {
             return res.status(400).json({success: false, message: "Invaild post id "});
         }
 
-        const pin = await Pin.findById(pinId).populate("creator", "name pfp username");
+        const pin = await Pin.findById(pinId).populate("creator", "_id name pfp username");
 
         if(!pin){
             return res.status(400).json({success: false, message: "Can't find pin "});
@@ -82,4 +82,14 @@ export const pinGet = async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal server error" });
     }
 }
+
+export const deletePin = async (req, res) => {
+    try{
+
+    }catch(err){
+        console.error(`❌ deletePin controller error :: ${err.message}`);
+        return res.status(500).json({ success: false, message: "Internal server error" });
+    }
+}
+
 
