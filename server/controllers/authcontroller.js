@@ -44,6 +44,7 @@ export const signUp = async (req, res)=>{
         }
 
         const senduser = {
+            id: user._id,
             name: user.name,
             email: user.email,
             username: user.username,
@@ -91,6 +92,7 @@ export const signIn = async (req, res)=>{
         genrateTokenAndSave(res, checkUser._id);
 
         const senduser = {
+            id: checkUser._id,
             name: checkUser.name,
             email: checkUser.email,
             username: checkUser.username,

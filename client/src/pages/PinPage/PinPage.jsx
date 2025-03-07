@@ -1,113 +1,125 @@
-import { useEffect, useState } from 'react';
-import './PinPage.css'
+import './PinPage.css';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom"
 import { getPinDetails } from '../../api/pins';
+import useAuthStore from '../../store/authStore'
 
 const PinPage = () => {
 
+    const [lighbox, setLightBox] = useState(false);
 
-
+    const { user } = useAuthStore();
+        
+        const [pin, setPin] = useState({});
+        const navigate = useNavigate();
+        const { pinId } = useParams();
     
-    const [pin, setPin] = useState({});
-    const navigate = useNavigate();
-    const { pinId } = useParams();
-
-    useEffect(() => {
-        const pinInfo = async () => {
-            try {
-                const response = await getPinDetails(pinId);
-
-                if (!response.success) {
+        useEffect(() => {
+            const pinInfo = async () => {
+                try {
+                    const response = await getPinDetails(pinId);
+    
+                    if (!response.success) {
+                        // navigate('/404');
+                        return;
+                    }
+    
+                    setPin(response.pin);
+                } catch (error) {
+                    console.error("Error fetching pin details:", error);
                     // navigate('/404');
-                    return;
                 }
-
-                setPin(response.pin);
-            } catch (error) {
-                console.error("Error fetching pin details:", error);
-                // navigate('/404');
-            }
-        };
-
-        if (pinId) {
-            pinInfo();
-        }
-    }, [pinId, navigate]); // Add dependencies to ensure proper re-fetching
+            };
     
-
+            if (pinId) {
+                pinInfo();
+            }
+        }, [pinId, navigate]); // Add dependencies to ensure proper re-fetching
+        
+        
+        
     
 
     return (
         <>
+            <div className="pin__wrapper">
 
-            <div className="container">
+                <div className="pin_image">
+                    <img src={pin.image} alt="" />
+                    <a className="zoom" onClick={()=> setLightBox(true)}>
+                        <i className="bi bi-arrows-angle-expand"></i>
+                    </a>
+                </div>
 
-                <div className="pin-page">
+                <div className="pin-data">
 
-                    <div className="pin-image">
+                    <div className='pin_post_header'>
+                        <div className="pin_header">
 
+                            <div className="action_menu">
+                                <div>
+                                    <button title="Like Pin"><i className="bi bi-heart"></i></button>
+                                    <span>24</span>
+                                </div>
 
-                        <img src={pin.image} alt="" />
+                                <div>
+                                    <button title="Download Pin">
+                                        <i className="bi bi-download"></i>
+                                    </button>
+                                </div>
 
-                        <div className="author-menu">
-                            <button>
-                                <i className="bi bi-pen-fill"></i>
-                            </button>
-                            <button>
-                                <i className="bi bi-trash-fill"></i>
-                            </button>
+                            </div>
+
+                            <div className='right_menu'>
+
+                                <a href="#">
+                                    <img src={pin.creator?.pfp} alt={pin.creator?.name} title={pin.creator?.name} />
+                                </a>
+
+                                <button className="save-btn saved">
+                                    Saved <i className="bi bi-pin-angle"></i>
+                                </button>
+                            </div>
+
                         </div>
-                    </div>
 
-
-
-
-
-                    <div className="pin-info">
-                        <div className="user-info">
-                            <img src={pin.creator?.pfp} alt="" />
-                            <p>
-                                {
-                                    pin.creator?.name
-                                }
-                            </p>
-                        </div>
-
-                        <h3>
-
+                        <h4>
                             {pin.title}
-                        </h3>
-                        <p className='description'>
-                            {
-                                pin.description
-                            }
+                        </h4>
+                        <p>
+                            {pin.description}
                         </p>
-
-                        <div className="post-action">
-
-                            <button className='like'>
-                                <i className="bi bi-heart"></i>
-                                <span>Like</span>
-                            </button>
-
-                            <button className='save'>
-                                <i className="bi bi-bookmark"></i>
-                                <span>Save pin</span>
-                            </button>
-
-                            <button className='download'>
-                                <i className="bi bi-download"></i>
-                                <span>Download</span>
-                            </button>
-
-                        </div>
-
-
                     </div>
+
+                    {
+                        user.id == pin.creator?._id ? <div className="admin-menu">
+
+                        <button>
+                            Delete Pin <i className="bi bi-trash-fill"></i>
+                        </button>
+
+                        <button>
+                            Edit Pin <i className="bi bi-pen-fill"></i>
+                        </button>
+
+
+                    </div> : ''
+                    }
+
+                    
 
 
                 </div>
 
+            </div>
+
+            <div className={lighbox ? 'enlarge-image active' : 'enlarge-image'} >
+
+                <div className="close-icon" onClick={()=> setLightBox(false)}>
+                    <i className="bi bi-x-lg"></i>
+                </div>
+
+                <img src={pin.image} alt="" />
 
             </div>
 
