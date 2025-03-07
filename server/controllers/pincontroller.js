@@ -1,4 +1,5 @@
 import Pin from "../models/pinmodel.js";
+import mongoose from "mongoose";
 
 export const getPins = async (req, res)=>{
     try{
@@ -65,7 +66,7 @@ export const pinGet = async (req, res) => {
 
         const { pinId } = req.params;        
 
-        if(!pinId){
+        if(pinId){
             return res.status(400).json({success: false, message: "Invaild post id "});
         }
 
@@ -75,7 +76,7 @@ export const pinGet = async (req, res) => {
             return res.status(400).json({success: false, message: "Can't find pin "});
         }
 
-        return res.status(201).json({success: true, message: "Pin fetch successfully", pin});
+        return res.status(200).json({success: true, message: "Pin fetch successfully", pin});
 
     }catch (err) {
         console.error(`❌ pinGet controller error :: ${err.message}`);
@@ -84,12 +85,30 @@ export const pinGet = async (req, res) => {
 }
 
 export const deletePin = async (req, res) => {
-    try{
+    try {
+        const { pinId } = req.body;
 
-    }catch(err){
+        // Validate pinId
+        if (!pinId || !mongoose.Types.ObjectId.isValid(pinId)) {
+            return res.status(400).json({ success: false, message: "Invalid Pin ID" });
+        }
+
+        // Check if pin exists
+        const pin = await Pin.findById(pinId);
+        if (!pin) {
+            return res.status(404).json({ success: false, message: "Pin Not Found" });
+        }
+
+        // Delete the pin
+        const deletedPin = await Pin.findByIdAndDelete(pinId);
+        if (!deletedPin) {
+            return res.status(400).json({ success: false, message: "Failed to delete Pin" });
+        }
+
+        return res.status(200).json({ success: true, message: "Pin deleted successfully" });
+    } catch (err) {
         console.error(`❌ deletePin controller error :: ${err.message}`);
         return res.status(500).json({ success: false, message: "Internal server error" });
     }
-}
-
+};
 
