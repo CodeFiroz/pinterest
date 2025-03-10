@@ -50,7 +50,7 @@ export const getPinDetails = async (pinId)=>{
             }
          )
 
-         if (response.status !== 201){
+         if (response.status !== 200){
             return {
                 success: false,
                 error: response.data.message
@@ -105,36 +105,55 @@ export const getAllPins = async ()=>{
     }
 }
 
-export const deletePin = async (pinId)=>{
-    try{
+export const deletePin = async (pinId) => {
+    try {
+        const response = await axios.delete(`${axiosLink}/trash`, {
+            data: { pinId },  // ✅ Correct way to send data in DELETE requests
+            withCredentials: true,
+        });
 
-        const response = await axios.post(
-            `${axiosLink}/delete`,  
-            {
-             pinId: pinId
-            },
-             {
-                 withCredentials: true,
-             }
-          )
- 
-          if (response.status !== 200){
-             return {
-                 success: false,
-                 error: response.data.message
-             }
-          }
- 
-        
-          return {
-             success: true,
-             pins: response.data.pins
-          }
+        if (response.status !== 200) {
+            return {
+                success: false,
+                error: response.data.message,
+            };
+        }
 
-    }catch(err){
+        return {
+            success: true,
+            pins: response.data.pin,
+        };
+    } catch (err) {
         return {
             success: false,
             error: err.response?.data?.message || "Something went wrong",
-        }
+        };
     }
-}
+};
+
+export const LikePin = async (pinId) => {
+    try {
+        const response = await axios.put(
+            `${axiosLink}/like/${pinId}`, 
+            {}, 
+            { withCredentials: true } 
+        );
+
+        if (response.status !== 200) {
+            return {
+                success: false,
+                error: response.data.message,
+            };
+        }
+
+        return {
+            success: true,
+            pins: response.data.pin,
+        };
+    } catch (err) {
+        return {
+            success: false,
+            error: err.response?.data?.message || "Something went wrong",
+        };
+    }
+};

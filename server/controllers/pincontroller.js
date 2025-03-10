@@ -38,6 +38,8 @@ export const newPin = async (req, res) => {
         
         const pin = req.file.path;
 
+        console.log(req.file);
+        
         
         const newPin = new Pin({
             title,
@@ -65,12 +67,15 @@ export const pinGet = async (req, res) => {
     try{
 
         const { pinId } = req.params;        
-
-        if(pinId){
+        
+        if(!pinId){
+            console.log(pinId);
             return res.status(400).json({success: false, message: "Invaild post id "});
         }
 
-        const pin = await Pin.findById(pinId).populate("creator", "_id name pfp username");
+        
+
+        const pin = await Pin.findById(pinId).populate("creator",  "_id name pfp username");
 
         if(!pin){
             return res.status(400).json({success: false, message: "Can't find pin "});
@@ -84,14 +89,18 @@ export const pinGet = async (req, res) => {
     }
 }
 
-export const deletePin = async (req, res) => {
+export const pinToTrash = async (req, res) => {
     try {
         const { pinId } = req.body;
+        console.log(pinId);
 
         // Validate pinId
-        if (!pinId || !mongoose.Types.ObjectId.isValid(pinId)) {
+        if (!pinId) {
             return res.status(400).json({ success: false, message: "Invalid Pin ID" });
         }
+
+        
+
 
         // Check if pin exists
         const pin = await Pin.findById(pinId);
@@ -104,6 +113,39 @@ export const deletePin = async (req, res) => {
         if (!deletedPin) {
             return res.status(400).json({ success: false, message: "Failed to delete Pin" });
         }
+
+        return res.status(200).json({ success: true, message: "Pin deleted successfully" });
+    } catch (err) {
+        console.error(`❌ deletePin controller error :: ${err.message}`);
+        return res.status(500).json({ success: false, message: "Internal server error" });
+    }
+};
+
+export const LikePin = async (req, res) => {
+    try {
+        const { pinId } = req.params;
+        const { user } = req.user;
+
+        if (!pinId) {
+            return res.status(400).json({ success: false, message: "Invalid Pin ID" });
+        }
+
+        
+
+
+        const pin = await Pin.findById(pinId);
+        if (!pin) {
+            return res.status(404).json({ success: false, message: "Pin Not Found" });
+        }
+
+        if (pin.likes.includes(user._id)) {
+            pin.likes = pin.likes.filter((id) => id.toString() !== user._id);
+        } else {
+            pin.likes.push(user._id);
+        }
+
+
+        await pin.save();
 
         return res.status(200).json({ success: true, message: "Pin deleted successfully" });
     } catch (err) {

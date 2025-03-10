@@ -1,7 +1,7 @@
 import './PinPage.css';
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from "react-router-dom"
-import { getPinDetails, deletePin} from '../../api/pins';
+import { useParams, useNavigate } from "react-router-dom"
+import { getPinDetails, deletePin, LikePin} from '../../api/pins';
 import useAuthStore from '../../store/authStore'
 
 
@@ -10,9 +10,10 @@ const PinPage = () => {
     const [lighbox, setLightBox] = useState(false);
 
     const { user } = useAuthStore();
+
+    const navigate = useNavigate();
         
         const [pin, setPin] = useState({});
-        const navigate = useNavigate();
         const { pinId } = useParams();
     
         useEffect(() => {
@@ -21,39 +22,57 @@ const PinPage = () => {
                     const response = await getPinDetails(pinId);
     
                     if (!response.success) {
-                        // navigate('/404');
-                        return;
+                        navigate('/404');
+                        return false;
                     }
     
                     setPin(response.pin);
                 } catch (error) {
                     console.error("Error fetching pin details:", error);
-                    // navigate('/404');
+                    navigate('/404');
                 }
             };
     
-            if (pinId) {
+           
                 pinInfo();
-            }
         }, [pinId, navigate]); // Add dependencies to ensure proper re-fetching
         
         
     
-    const DeletePin = async () => {
-        const confirmDel = confirm("Do you want to delete this pin ?");
-        if(confirmDel){
-
-             const response = await deletePin(pinId);
+        const LikedPin = async () => {
+            const LikedResponse = await LikePin(pinId);
             
-                    if(!response.success){
-                        alert(response.error)
-                    }else{
-                       alert("Deleted")
-                    }
+            if (!LikedResponse.success) {
+                alert(LikedResponse.error);
+            } else {
+                setPin((prevPin) => ({
+                    ...prevPin,
+                    likes: prevPin.likes.includes(user.id)
+                        ? prevPin.likes.filter((id) => id !== user.id) // Unlike
+                        : [...prevPin.likes, user.id], // Like
+                }));
+            }
+        };
+        
+        const DeletePin = async () => {
+            const confirmDel = window.confirm("Do you want to delete this pin?");
+            if (confirmDel) {
+                const DeleteResponse = await deletePin(pinId);
+        
+                if (!DeleteResponse.success) {
+                    alert(DeleteResponse.error);
+                } else {
+                    alert("Deleted");
+                    navigate("/");
+                }
+            }
+        };
+        
 
-        }
-    }
+
     
+
+
 
     return (
         <>
@@ -72,10 +91,15 @@ const PinPage = () => {
                         <div className="pin_header">
 
                             <div className="action_menu">
-                                <div>
-                                    <button title="Like Pin"><i className="bi bi-heart"></i></button>
-                                    <span>24</span>
-                                </div>
+                            <div onClick={() => LikedPin()}>  {/* ✅ Fixed function reference */}
+    <button 
+        title="Like Pin" 
+        className={pin.likes?.includes(user?.id) ? 'like' : ''}
+    >
+        <i className="bi bi-heart"></i>
+    </button>
+    <span>{pin.likes?.length || 0}</span> {/* ✅ Shows like count */}
+</div>
 
                                 <div>
                                     <button title="Download Pin">
