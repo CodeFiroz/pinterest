@@ -18,6 +18,27 @@ export const getPins = async (req, res)=>{
     }
 }
 
+export const getMyPins = async (req, res)=>{
+    try{
+
+        const { user } = req.user;
+
+        const pins = await Pin.find({
+            creator: user_id
+        }).select("_id image title");
+
+        if(!pins){
+            return res.status(400).json({success: false, message: "Failed to fetch pin"});
+        }
+
+        return res.status(201).json({success: true, message: "Pin fetch successfully", pins: pins});
+
+    }catch(err){
+        console.log(`❌ newPin controller error :: ${err}`);
+        return res.status(500).json({success: false, message: "Internal server error"});
+    }
+}
+
 export const newPin = async (req, res) => {
     try {
        
@@ -126,28 +147,63 @@ export const LikePin = async (req, res) => {
         const { pinId } = req.params;
         const { user } = req.user;
 
+        const userId = user._id;
+
         if (!pinId) {
             return res.status(400).json({ success: false, message: "Invalid Pin ID" });
         }
-
-        
-
 
         const pin = await Pin.findById(pinId);
         if (!pin) {
             return res.status(404).json({ success: false, message: "Pin Not Found" });
         }
 
-        if (pin.likes.includes(user._id)) {
-            pin.likes = pin.likes.filter((id) => id.toString() !== user._id);
-        } else {
-            pin.likes.push(user._id);
+        const index = pin.likes.indexOf(userId);
+
+        if(index === -1){
+            pin.likes.push(userId);
+        }else{
+            pin.likes.splice(index, 1);
         }
 
-
+      
         await pin.save();
 
-        return res.status(200).json({ success: true, message: "Pin deleted successfully" });
+        return res.status(200).json({ success: true, message: "success" });
+    } catch (err) {
+        console.error(`❌ deletePin controller error :: ${err.message}`);
+        return res.status(500).json({ success: false, message: "Internal server error" });
+    }
+};
+
+export const SavePin = async (req, res) => {
+    try {
+        const { pinId } = req.params;
+        const { user } = req.user;
+
+        const userId = user._id;
+
+        if (!pinId) {
+            return res.status(400).json({ success: false, message: "Invalid Pin ID" });
+        }
+
+        const pin = await Pin.findById(pinId);
+        if (!pin) {
+            return res.status(404).json({ success: false, message: "Pin Not Found" });
+        }
+
+        const index = pin.saved.indexOf(userId);
+
+        if(index === -1){
+            pin.saved.push(userId);
+        }else{
+            pin.saved.splice(index, 1);
+        }
+
+      
+        await pin.save();
+
+        return res.status(200).json({ success: true, message: "success" });
     } catch (err) {
         console.error(`❌ deletePin controller error :: ${err.message}`);
         return res.status(500).json({ success: false, message: "Internal server error" });

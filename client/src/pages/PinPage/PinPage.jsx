@@ -1,77 +1,84 @@
 import './PinPage.css';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom"
-import { getPinDetails, deletePin, LikePin} from '../../api/pins';
+import { getPinDetails, deletePin, LikePin, savePin } from '../../api/pins';
 import useAuthStore from '../../store/authStore'
 
 
 const PinPage = () => {
 
-    const [lighbox, setLightBox] = useState(false);
+    const navigate = useNavigate();
+    const { pinId } = useParams();
 
     const { user } = useAuthStore();
+    const userId = user.id;
 
-    const navigate = useNavigate();
-        
-        const [pin, setPin] = useState({});
-        const { pinId } = useParams();
-    
-        useEffect(() => {
-            const pinInfo = async () => {
-                try {
-                    const response = await getPinDetails(pinId);
-    
-                    if (!response.success) {
-                        navigate('/404');
-                        return false;
-                    }
-    
-                    setPin(response.pin);
-                } catch (error) {
-                    console.error("Error fetching pin details:", error);
+    const [pin, setPin] = useState({});
+    const [likes, setLikes] = useState(0);
+    const [liked, setLiked] = useState(false);
+    const [saved, setSaved] = useState(false);
+    const [lighbox, setLightBox] = useState(false);
+
+
+    useEffect(() => {
+        const pinInfo = async () => {
+            try {
+                const response = await getPinDetails(pinId);
+                if (!response.success) {
                     navigate('/404');
+                    return false;
                 }
-            };
-    
-           
-                pinInfo();
-        }, [pinId, navigate]); // Add dependencies to ensure proper re-fetching
-        
-        
-    
-        const LikedPin = async () => {
-            const LikedResponse = await LikePin(pinId);
-            
-            if (!LikedResponse.success) {
-                alert(LikedResponse.error);
+
+                setPin(response.pin);
+                setLikes(pin.likes?.length);
+                setLiked(pin.likes?.includes(userId))
+                setSaved(pin.saved?.includes(userId))
+
+            } catch (error) {
+                console.error("Error fetching pin details:", error);
+            }
+        };
+        pinInfo();
+
+
+    }, [pinId, navigate, userId, pin.likes, pin.saved]);
+
+
+
+    const handleDelete = async () => {
+        const confirmDel = window.confirm("Do you want to delete this pin?");
+        if (confirmDel) {
+            const DeleteResponse = await deletePin(pinId);
+
+            if (!DeleteResponse.success) {
+                alert(DeleteResponse.error);
             } else {
-                setPin((prevPin) => ({
-                    ...prevPin,
-                    likes: prevPin.likes.includes(user.id)
-                        ? prevPin.likes.filter((id) => id !== user.id) // Unlike
-                        : [...prevPin.likes, user.id], // Like
-                }));
+                alert("Deleted");
+                navigate("/");
             }
-        };
-        
-        const DeletePin = async () => {
-            const confirmDel = window.confirm("Do you want to delete this pin?");
-            if (confirmDel) {
-                const DeleteResponse = await deletePin(pinId);
-        
-                if (!DeleteResponse.success) {
-                    alert(DeleteResponse.error);
-                } else {
-                    alert("Deleted");
-                    navigate("/");
-                }
-            }
-        };
-        
+        }
+    };
 
+    const handleLike = async () => {
+        const LikedResponse = await LikePin(pinId);
 
-    
+        if (!LikedResponse.success) {
+            alert("Oops");
+        } else {
+            setLiked(!liked)
+            setLikes(liked ? likes - 1 : likes + 1)
+        }
+    };
 
+    const handleSaved = async () => {
+        const SaveResponse = await savePin(pinId);
+
+        if (!SaveResponse.success) {
+            alert("Oops");
+        } else {
+            setSaved(!liked)
+        }
+    };
 
 
     return (
@@ -80,7 +87,7 @@ const PinPage = () => {
 
                 <div className="pin_image">
                     <img src={pin.image} alt="" />
-                    <a className="zoom" onClick={()=> setLightBox(true)}>
+                    <a className="zoom" onClick={() => setLightBox(true)}>
                         <i className="bi bi-arrows-angle-expand"></i>
                     </a>
                 </div>
@@ -91,15 +98,12 @@ const PinPage = () => {
                         <div className="pin_header">
 
                             <div className="action_menu">
-                            <div onClick={() => LikedPin()}>  {/* ✅ Fixed function reference */}
-    <button 
-        title="Like Pin" 
-        className={pin.likes?.includes(user?.id) ? 'like' : ''}
-    >
-        <i className="bi bi-heart"></i>
-    </button>
-    <span>{pin.likes?.length || 0}</span> {/* ✅ Shows like count */}
-</div>
+                                <div onClick={handleLike}>
+                                    <button className={liked ? 'like' : ''}>
+                                        <i className="bi bi-heart"></i>
+                                    </button>
+                                    <span>{likes}</span>
+                                </div>
 
                                 <div>
                                     <button title="Download Pin">
@@ -115,8 +119,8 @@ const PinPage = () => {
                                     <img src={pin.creator?.pfp} alt={pin.creator?.name} title={pin.creator?.name} />
                                 </a>
 
-                                <button className="save-btn saved">
-                                    Saved <i className="bi bi-pin-angle"></i>
+                                <button onClick={handleSaved} className={`save-btn ${saved ? 'saved' : ''}`}>
+                                {saved ? <>Saved <i className="bi bi-bookmark-fill"></i></> : <>Save <i className="bi bi-pin-angle"></i>    </>}
                                 </button>
                             </div>
 
@@ -133,19 +137,19 @@ const PinPage = () => {
                     {
                         user.id == pin.creator?._id ? <div className="admin-menu">
 
-                        <button onClick={DeletePin}>
-                            Delete Pin <i className="bi bi-trash-fill"></i>
-                        </button>
+                            <button onClick={handleDelete}>
+                                Delete Pin <i className="bi bi-trash-fill"></i>
+                            </button>
 
-                        <button>
-                            Edit Pin <i className="bi bi-pen-fill"></i>
-                        </button>
+                            <button>
+                                Edit Pin <i className="bi bi-pen-fill"></i>
+                            </button>
 
 
-                    </div> : ''
+                        </div> : ''
                     }
 
-                    
+
 
 
                 </div>
@@ -154,11 +158,11 @@ const PinPage = () => {
 
             <div className={lighbox ? 'enlarge-image active' : 'enlarge-image'} >
 
-                <div className="close-icon" onClick={()=> setLightBox(false)}>
+                <div className="close-icon" onClick={() => setLightBox(false)}>
                     <i className="bi bi-x-lg"></i>
                 </div>
 
-                <img src={pin.image} alt="" />
+                <img src={pin.image} alt={pin.title} />
 
             </div>
 

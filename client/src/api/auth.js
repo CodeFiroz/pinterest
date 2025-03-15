@@ -187,7 +187,8 @@ export const verify = async ()=>{
 
          return {
             success: true,
-         }
+            user: response.data.user
+        }
     
     }catch(err){
         return {

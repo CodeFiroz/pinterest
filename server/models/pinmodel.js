@@ -24,6 +24,12 @@ const pinSchema = mongoose.Schema({
             ref: 'User'
         }
     ],
+    saved: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
     comments: [
         {
             text: String,

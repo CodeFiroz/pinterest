@@ -23,7 +23,7 @@ export const protectRoute = async (req, res, next)=>{
 
         const userId = decoded.userid;
 
-        const user = await User.findOne({_id : userId}).select("_is name email username pfp cover");
+        const user = await User.findOne({_id : userId}).select("-password -resetToken -resetTokenExpiry -updatedAt  -createdAt");
         
         if(!user){
             return res.status(401).json({success: false, message: "User not found - Invalid token"});

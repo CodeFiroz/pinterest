@@ -105,6 +105,40 @@ export const getAllPins = async ()=>{
     }
 }
 
+export const getMyPins = async ()=>{
+   
+    try{
+        const response = await axios.post(
+           `${axiosLink}/mypins`,  
+           {
+            action: "fetch pins"
+           },
+            {
+                withCredentials: true,
+            }
+         )
+
+         if (response.status !== 201){
+            return {
+                success: false,
+                error: response.data.message
+            }
+         }
+
+       
+         return {
+            success: true,
+            pins: response.data.pins
+         }
+    
+    }catch(err){
+        return {
+            success: false,
+            error: err.response?.data?.message || "Something went wrong",
+        }
+    }
+}
+
 export const deletePin = async (pinId) => {
     try {
         const response = await axios.delete(`${axiosLink}/trash`, {
@@ -149,6 +183,35 @@ export const LikePin = async (pinId) => {
         return {
             success: true,
             pins: response.data.pin,
+            user: response.data.user
+        };
+    } catch (err) {
+        return {
+            success: false,
+            error: err.response?.data?.message || "Something went wrong",
+        };
+    }
+};
+
+export const savePin = async (pinId) => {
+    try {
+        const response = await axios.put(
+            `${axiosLink}/save/${pinId}`, 
+            {}, 
+            { withCredentials: true } 
+        );
+
+        if (response.status !== 200) {
+            return {
+                success: false,
+                error: response.data.message,
+            };
+        }
+
+        return {
+            success: true,
+            pins: response.data.pin,
+            user: response.data.user
         };
     } catch (err) {
         return {

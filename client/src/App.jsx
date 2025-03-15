@@ -20,7 +20,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import useAuthStore from "./store/authStore"
 
 function App() {
-  const { isAuthenticated, user, logoutUser } = useAuthStore();
+  const { isAuthenticated, user, logoutUser, Setlogin } = useAuthStore();
 
 
 
@@ -31,7 +31,6 @@ function App() {
      if(!response.success){
       logoutUser();
      }
-     
 
    }
 
@@ -52,9 +51,9 @@ function App() {
 
         <Routes>
           <Route path="/" element={<ProtectRoute><Home /></ProtectRoute>} />
-          {
+          {/* {
             isAuthenticated ? <Route path={`/${user.username}`} element={<ProtectRoute><Profile /></ProtectRoute>} /> : ''
-          }
+          } */}
 
           <Route path="/new" element={<ProtectRoute><CreatePin /></ProtectRoute>} />
           <Route path="/update" element={<ProtectRoute><UpdateProfile /></ProtectRoute>} />
