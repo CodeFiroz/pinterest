@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom"
 import { getPinDetails, deletePin, LikePin, savePin } from '../../api/pins';
 import useAuthStore from '../../store/authStore'
-import Pin from '../../../../server/models/pinmodel';
 
 
 const PinPage = () => {
