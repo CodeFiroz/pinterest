@@ -141,9 +141,9 @@ Contributions are welcome! If you find any bugs or have suggestions, feel free t
 ## 📩 Contact
 
 👤 **Firoz Ansari**  
-📧 Email: [info@cwsindia.co.in](mailto:info@cwsindia.co.in)  
+📧 Email: [khanfiroz4045@gmail.com](mailto:khanfiroz4045@gmail.com)  
 🔗 GitHub: [github.com/CodeFiroz](https://github.com/CodeFiroz)  
-📸 Instagram: [@faiz.stuffs](https://www.instagram.com/faiz.stuffs)  
+📸 Instagram: [@sarcastic.firoz](https://www.instagram.com/sarcastic.firoz)  
 
 ---
 
