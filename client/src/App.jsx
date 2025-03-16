@@ -18,6 +18,8 @@ import { verify } from "./api/auth"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 import useAuthStore from "./store/authStore"
+import UpdatePin from "./pages/CreatePin/UpdatePin"
+import About from "./pages/About/About"
 
 function App() {
   const { isAuthenticated, user, logoutUser, Setlogin } = useAuthStore();
@@ -55,6 +57,7 @@ function App() {
           
 
           <Route path="/new" element={<ProtectRoute><CreatePin /></ProtectRoute>} />
+          <Route path="/edit/:pinId" element={<ProtectRoute><UpdatePin /></ProtectRoute>} />
           <Route path="/update" element={<ProtectRoute><UpdateProfile /></ProtectRoute>} />
           <Route path="/saved" element={<ProtectRoute><SavedPin /></ProtectRoute>} />
           <Route path="/pin/:pinId" element={<ProtectRoute><PinPage /></ProtectRoute>} />
@@ -62,6 +65,7 @@ function App() {
           <Route path="/sign-up" element={<AuthPage><SignUp /></AuthPage>} />
           <Route path="/forgot-password" element={<AuthPage><ForgotPassword /></AuthPage>} />
           <Route path="/reset-password/:token" element={<AuthPage><ResetPassword /></AuthPage>} />
+          <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
 

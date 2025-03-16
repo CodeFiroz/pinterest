@@ -118,12 +118,12 @@ const Header = () => {
             </li>
 
             <li>
-                <a href="#">
+                <Link to="/about"  className={navigation === `/about` ? 'active' : ''}>
 
                     <i className="bi bi-info"></i>
                     <span>About App</span>
 
-                </a>
+                </Link>
             </li>
             
         </ul>

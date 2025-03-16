@@ -1,50 +1,49 @@
 import Pin from "../models/pinmodel.js";
 import mongoose from "mongoose";
 
-export const getPins = async (req, res)=>{
-    try{
+export const getPins = async (req, res) => {
+    try {
 
         const pins = await Pin.find().select("_id image title");
 
-        if(!pins){
-            return res.status(400).json({success: false, message: "Failed to fetch pin"});
+        if (!pins) {
+            return res.status(400).json({ success: false, message: "Failed to fetch pin" });
         }
 
-        return res.status(201).json({success: true, message: "Pin fetch successfully", pins: pins});
+        return res.status(201).json({ success: true, message: "Pin fetch successfully", pins: pins });
 
-    }catch(err){
-        console.log(`❌ newPin controller error :: ${err}`);
-        return res.status(500).json({success: false, message: "Internal server error"});
+    } catch (err) {
+        console.log(`❌ getPin controller error :: ${err}`);
+        return res.status(500).json({ success: false, message: "Internal server error" });
     }
 }
 
-export const getMyPins = async (req, res)=>{
-    try{
+export const getMyPins = async (req, res) => {
+    try {
 
         const { username } = req.body;
-        
+
 
         const pins = await Pin.find({
             creator: username
         }).select("_id image title");
 
-        
 
-        if(!pins){
-            return res.status(400).json({success: false, message: "Failed to fetch pin"});
+
+        if (!pins) {
+            return res.status(400).json({ success: false, message: "Failed to fetch pin" });
         }
 
-        return res.status(200).json({success: true, message: "Pin fetch successfully", pins: pins});
+        return res.status(200).json({ success: true, message: "Pin fetch successfully", pins: pins });
 
-    }catch(err){
+    } catch (err) {
         console.log(`❌ getMyPins controller error :: ${err}`);
-        return res.status(500).json({success: false, message: "Internal server error"});
+        return res.status(500).json({ success: false, message: "Internal server error" });
     }
 }
 
-
-export const MySavedPin = async (req, res)=>{
-    try{
+export const MySavedPin = async (req, res) => {
+    try {
 
         const { user } = req.user;
 
@@ -52,22 +51,21 @@ export const MySavedPin = async (req, res)=>{
             saved: user._id
         }).select("_id image title");
 
-        if(!pins){
-            return res.status(400).json({success: false, message: "Failed to fetch pin"});
+        if (!pins) {
+            return res.status(400).json({ success: false, message: "Failed to fetch pin" });
         }
 
-        return res.status(201).json({success: true, message: "Pin fetch successfully", pins: pins});
+        return res.status(201).json({ success: true, message: "Pin fetch successfully", pins: pins });
 
-    }catch(err){
+    } catch (err) {
         console.log(`❌ getMyPins controller error :: ${err}`);
-        return res.status(500).json({success: false, message: "Internal server error"});
+        return res.status(500).json({ success: false, message: "Internal server error" });
     }
 }
 
-
 export const newPin = async (req, res) => {
     try {
-       
+
         const { title, description } = req.body;
         const { user } = req.user;
 
@@ -77,22 +75,22 @@ export const newPin = async (req, res) => {
             return res.status(400).json({ success: false, message: "Please add a title" });
         }
 
-        
+
         if (!req.file) {
             return res.status(400).json({ success: false, message: "Please upload an image" });
         }
 
-        
-        const pin = req.file.path;        
-        
+
+        const pin = req.file.path;
+
         const newPin = new Pin({
             title,
             description,
-            image: pin, 
+            image: pin,
             creator: user._id
         });
 
-        
+
         const savedPin = await newPin.save();
 
         if (!savedPin) {
@@ -107,27 +105,63 @@ export const newPin = async (req, res) => {
     }
 };
 
+export const updatePin = async (req, res) => {
+    try {
+
+        const { title, description } = req.body;
+        const { pinId } = req.params;
+
+        if (!title) {
+            return res.status(400).json({ success: false, message: "Please add a title" });
+        }
+
+        const pin = await Pin.findById(pinId);
+
+        if (!pin) {
+            return res.status(400).json({ success: false, message: "pin not found" });
+        }
+
+        const updateData = {
+            title,
+            description
+        }
+
+        const updatepin = await Pin.findByIdAndUpdate(pinId, updateData, { new: true });
+
+
+        if (!updateData) {
+            return res.status(400).json({ success: false, message: "Failed to update pin" });
+        }
+
+        return res.status(200).json({ success: true, message: "Pin update successfully", pin: updateData });
+
+    } catch (err) {
+        console.error(`❌ updatePin controller error :: ${err.message}`);
+        return res.status(500).json({ success: false, message: "Internal server error" });
+    }
+};
+
 export const pinGet = async (req, res) => {
-    try{
+    try {
 
-        const { pinId } = req.params;        
-        
-        if(!pinId){
+        const { pinId } = req.params;
+
+        if (!pinId) {
             console.log(pinId);
-            return res.status(400).json({success: false, message: "Invaild post id "});
+            return res.status(400).json({ success: false, message: "Invaild post id " });
         }
 
-        
 
-        const pin = await Pin.findById(pinId).populate("creator",  "_id name pfp username");
 
-        if(!pin){
-            return res.status(400).json({success: false, message: "Can't find pin "});
+        const pin = await Pin.findById(pinId).populate("creator", "_id name pfp username");
+
+        if (!pin) {
+            return res.status(400).json({ success: false, message: "Can't find pin " });
         }
 
-        return res.status(200).json({success: true, message: "Pin fetch successfully", pin});
+        return res.status(200).json({ success: true, message: "Pin fetch successfully", pin });
 
-    }catch (err) {
+    } catch (err) {
         console.error(`❌ pinGet controller error :: ${err.message}`);
         return res.status(500).json({ success: false, message: "Internal server error" });
     }
@@ -143,7 +177,7 @@ export const pinToTrash = async (req, res) => {
             return res.status(400).json({ success: false, message: "Invalid Pin ID" });
         }
 
-        
+
 
 
         // Check if pin exists
@@ -183,13 +217,13 @@ export const LikePin = async (req, res) => {
 
         const index = pin.likes.indexOf(userId);
 
-        if(index === -1){
+        if (index === -1) {
             pin.likes.push(userId);
-        }else{
+        } else {
             pin.likes.splice(index, 1);
         }
 
-      
+
         await pin.save();
 
         return res.status(200).json({ success: true, message: "success" });
@@ -217,13 +251,13 @@ export const SavePin = async (req, res) => {
 
         const index = pin.saved.indexOf(userId);
 
-        if(index === -1){
+        if (index === -1) {
             pin.saved.push(userId);
-        }else{
+        } else {
             pin.saved.splice(index, 1);
         }
 
-      
+
         await pin.save();
 
         return res.status(200).json({ success: true, message: "success" });

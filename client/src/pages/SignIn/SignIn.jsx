@@ -52,7 +52,7 @@ const SignIn = () => {
       setError("Please enter your username.")
       return false;
     }else if(formdata.password == ""){
-      setError("Please create your password")
+      setError("Please enter your password")
       return false;
     }else{
       return true;

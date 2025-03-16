@@ -1,6 +1,6 @@
 import './PinPage.css';
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate, Link } from "react-router-dom"
 import { getPinDetails, deletePin, LikePin, savePin } from '../../api/pins';
 import useAuthStore from '../../store/authStore'
 
@@ -81,6 +81,9 @@ const PinPage = () => {
     };
 
 
+    console.log(pin);
+    
+
     return (
         <>
             <div className="pin__wrapper">
@@ -145,9 +148,9 @@ const PinPage = () => {
                                 Delete Pin <i className="bi bi-trash-fill"></i>
                             </button>
 
-                            <button>
+                            <Link to={`/edit/${pin._id}`} >
                                 Edit Pin <i className="bi bi-pen-fill"></i>
-                            </button>
+                            </Link>
 
 
                         </div> : ''

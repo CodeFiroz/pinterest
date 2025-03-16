@@ -1,0 +1,60 @@
+.about_page div{
+    padding: 30px 0px;
+    border-bottom: 1px solid #ccc;
+}
+
+ul{
+    list-style: none;
+}
+
+p{
+    margin: 20px 0px;
+    display: block;
+}
+
+ul.contact a{
+    text-decoration: none;
+    color: #999;
+    padding: 5px;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+ul.contact a i{
+    margin-right: 15px;
+    position: relative;
+    z-index: 999;
+    margin-top: 2px;
+}
+
+ul.contact a i::after{
+    content: '';
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+    background: #000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: -1;
+    transition: .3s ease-in-out;
+}
+
+
+ul.contact a:hover i{
+    color: #fff;
+}
+
+ul.contact a:hover i::after{
+    transform: translate(-50%, -50%) scale(1);
+    background: var(--i);
+}
+
+
+
+ul.contact a:hover{
+    color: var(--i);
+}

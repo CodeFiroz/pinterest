@@ -37,6 +37,38 @@ export const newPin = async (formdata)=>{
     }
 }
 
+export const updatePin = async (pinId, formdata)=>{
+   
+    try{
+        const response = await axios.post(
+           `${axiosLink}/update/${pinId}`, 
+            formdata, 
+            {
+                withCredentials: true,
+            }
+         )
+
+         if (response.status !== 200){
+            return {
+                success: false,
+                error: response.data.message
+            }
+         }
+
+       
+         return {
+            success: true,
+            pinId: response.data.pin
+         }
+    
+    }catch(err){
+        return {
+            success: false,
+            error: err.response?.data?.message || "Something went wrong",
+        }
+    }
+}
+
 export const getPinDetails = async (pinId)=>{
    
     try{
