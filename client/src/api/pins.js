@@ -105,13 +105,47 @@ export const getAllPins = async ()=>{
     }
 }
 
-export const getMyPins = async ()=>{
+export const getMyPins = async (username)=>{
    
     try{
         const response = await axios.post(
-           `${axiosLink}/mypins`,  
+           `${axiosLink}/my-pins`,  
            {
-            action: "fetch pins"
+            username
+           },
+            {
+                withCredentials: true,
+            }
+         )
+
+         if (response.status !== 200){
+            return {
+                success: false,
+                error: response.data.message
+            }
+         }
+
+       
+         return {
+            success: true,
+            pins: response.data.pins
+         }
+    
+    }catch(err){
+        return {
+            success: false,
+            error: err.response?.data?.message || "Something went wrong",
+        }
+    }
+}
+
+export const mySaved = async ()=>{
+   
+    try{
+        const response = await axios.post(
+           `${axiosLink}/my-saved`,  
+           {
+            action: ''
            },
             {
                 withCredentials: true,

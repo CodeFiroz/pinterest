@@ -1,11 +1,55 @@
 import './Profile.css'
 import Pins from '../../components/Pins/Pins'
 import useAuthStore from '../../store/authStore'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { getMyPins } from '../../api/pins'
+import { getUser } from '../../api/auth'
 
 const Profile = () => {
 
     const { user } = useAuthStore();
+
+    const [userinfo, setUserInfo] = useState({});
+    const { username } = useParams();
+    const [pins, setPin] = useState([]);
+
+    useEffect(() => {
+        const getMe = async () => {
+            try {
+                const response = await getUser(username);
+                if (!response.success) {
+                    console.log(response.error);
+                    return false;
+                }
+                setUserInfo(response.user);
+            } catch (error) {
+                console.error("Error fetching user details:", error);
+            }
+        };
+        getMe();
+    }, [username]); // Add username to dependency array.
+
+    useEffect(() => {
+        const myPins = async () => {
+            if (!userinfo.id) return; // Add a check to prevent running before userinfo.id is available
+
+            try {
+                const response = await getMyPins(userinfo.id);
+                if (!response.success) {
+                    console.log(response.error);
+                    return false;
+                }
+                setPin(response.pins);
+            } catch (error) {
+                console.error("Error fetching pin details:", error);
+            }
+        };
+        myPins();
+    }, [userinfo.id]); // Add userinfo.id to dependency array.
+
+
+        
 
   return (
     <>
@@ -18,29 +62,31 @@ const Profile = () => {
         <div className="profile_info">
 
             <div className="me">
-                <img src={user.pfp} alt="" />
+                <img src={userinfo.pfp} alt="" />
                 <div>
-                    <h3>{user.name}</h3>
+                    <h3>{userinfo.name}</h3>
                     <p>
-                        @{user.username}
+                        @{userinfo.username}
                     </p>
                 </div>
             </div>
 
             <div className="bio">
-                <p>
-                <pre>{user.bio}</pre>
-                </p>
+                
+                <pre>{userinfo.bio}</pre>
+                
             </div>
 
-            <div className="action-buttons">
-                <Link to="/update">Edit Profile</Link>
-            </div>
+            {
+                user.id === userinfo.id ? <div className="action-buttons"><Link to="/update">Edit Profile</Link></div> : ''
+            }
+
+            
 
         </div>
 
         <div className="feature_image">
-            <img src={user.cover} alt="" />
+            <img src={userinfo.cover} alt="" />
         </div>
 
 
@@ -51,16 +97,11 @@ const Profile = () => {
 
         <div className="pin-grid">
 
-            <Pins img="https://i.pinimg.com/236x/08/27/ab/0827ab4e7b619ab0f74b003b7e3377b4.jpg"/>
-            <Pins img="https://i.pinimg.com/236x/d5/71/e3/d571e3406a1cc6933029c9ec91c0b98f.jpg"/>
-            <Pins img="https://i.pinimg.com/474x/4b/95/3c/4b953cdfe9042c34d1cf54478e3035f8.jpg"/>
-            <Pins img="https://i.pinimg.com/474x/c0/e7/63/c0e76382cf4a410ad55274d33ba1276a.jpg"/>
-            <Pins img="https://i.pinimg.com/236x/59/e4/14/59e414c1150b8e079aa66e282ea0aa5d.jpg"/>
-            <Pins img="https://i.pinimg.com/236x/e2/27/e7/e227e7d2926480ae04baa376582c0da4.jpg"/>
-            <Pins img="https://i.pinimg.com/236x/aa/54/ed/aa54ede3a954e4021016e5f2a05dc5c3.jpg"/>
-            <Pins img="https://i.pinimg.com/236x/ba/76/95/ba7695fb4dfedf67cc8c1bef3bc1c813.jpg"/>
-            <Pins img="https://i.pinimg.com/236x/ed/a3/9a/eda39a2f240a107a2556cd14c91be54d.jpg"/>
-            <Pins img="https://i.pinimg.com/236x/6d/d2/3b/6dd23b645ce92986b5ec84a498ad2860.jpg"/>
+        {
+              pins.map((pin, index) => (
+                <Pins key={index} img={pin.image} id={pin._id} title={pin.title} />
+              ))
+          }
 
         </div>
 

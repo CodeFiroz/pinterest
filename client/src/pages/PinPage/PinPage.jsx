@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom"
 import { getPinDetails, deletePin, LikePin, savePin } from '../../api/pins';
 import useAuthStore from '../../store/authStore'
+import Pin from '../../../../server/models/pinmodel';
 
 
 const PinPage = () => {
@@ -17,7 +18,7 @@ const PinPage = () => {
     const [likes, setLikes] = useState(0);
     const [liked, setLiked] = useState(false);
     const [saved, setSaved] = useState(false);
-    const [lighbox, setLightBox] = useState(false);
+    const [lightbox, setLightBox] = useState(false);
 
 
     useEffect(() => {
@@ -106,21 +107,25 @@ const PinPage = () => {
                                 </div>
 
                                 <div>
-                                    <button title="Download Pin">
+                                    <a
+                                        href={pin.image}
+                                        download={pin.image} // Extract filename
+                                        title="Download Pin"
+                                    >
                                         <i className="bi bi-download"></i>
-                                    </button>
+                                    </a>
                                 </div>
 
                             </div>
 
                             <div className='right_menu'>
 
-                                <a href="#">
+                                <a href={`/${pin.creator?.username}`}>
                                     <img src={pin.creator?.pfp} alt={pin.creator?.name} title={pin.creator?.name} />
                                 </a>
 
                                 <button onClick={handleSaved} className={`save-btn ${saved ? 'saved' : ''}`}>
-                                {saved ? <>Saved <i className="bi bi-bookmark-fill"></i></> : <>Save <i className="bi bi-pin-angle"></i>    </>}
+                                    {saved ? <>Saved <i className="bi bi-bookmark-fill"></i></> : <>Save <i className="bi bi-pin-angle"></i>    </>}
                                 </button>
                             </div>
 
@@ -156,7 +161,7 @@ const PinPage = () => {
 
             </div>
 
-            <div className={lighbox ? 'enlarge-image active' : 'enlarge-image'} >
+            <div className={lightbox ? 'enlarge-image active' : 'enlarge-image'} >
 
                 <div className="close-icon" onClick={() => setLightBox(false)}>
                     <i className="bi bi-x-lg"></i>

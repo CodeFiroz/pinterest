@@ -68,6 +68,40 @@ export const Signin = async (formdata)=>{
     }
 }
 
+export const getUser = async (username)=>{
+    try{
+        const response = await axios.post(
+           `${axiosLink}/me`, 
+            {
+                username: username
+            }, 
+            {
+                withCredentials: true
+            }
+         )
+
+         if (response.status !== 200){
+            return {
+                success: false,
+                error: response.data.message
+            }
+         }
+
+
+
+         return {
+            success: true,
+            user: response.data.user
+         }
+    
+    }catch(err){
+        return {
+            success: false,
+            error: err.response?.data?.message || "Something went wrong",
+        }
+    }
+}
+
 export const SendPasswordResetMail = async (formdata)=>{
     try{
         const response = await axios.post(

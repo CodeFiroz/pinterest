@@ -31,7 +31,8 @@
     font-size: 14px;
 }
 
-.profile_info .bio p{
+.profile_info .bio p,
+.profile_info .bio pre{
     font-size: 16px;
     color: #333;
     display: block;

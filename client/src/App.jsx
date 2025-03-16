@@ -51,9 +51,8 @@ function App() {
 
         <Routes>
           <Route path="/" element={<ProtectRoute><Home /></ProtectRoute>} />
-          {/* {
-            isAuthenticated ? <Route path={`/${user.username}`} element={<ProtectRoute><Profile /></ProtectRoute>} /> : ''
-          } */}
+          <Route path={`/:username`} element={<ProtectRoute><Profile /></ProtectRoute>} /> : ''
+          
 
           <Route path="/new" element={<ProtectRoute><CreatePin /></ProtectRoute>} />
           <Route path="/update" element={<ProtectRoute><UpdateProfile /></ProtectRoute>} />

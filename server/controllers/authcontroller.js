@@ -114,6 +114,45 @@ export const signIn = async (req, res)=>{
     }
 }
 
+export const getUser = async (req, res)=>{
+    try{
+
+        const { username } = req.body;
+
+        if(!username){
+            return res.status(400).json({success: false, message: "empty username"});
+        }
+
+        const checkUser = await User.findOne({username});
+
+        if(!checkUser){
+            return res.status(400).json({success: false, message: `${username} not found`});
+        }
+
+        const senduser = {
+            id: checkUser._id,
+            name: checkUser.name,
+            email: checkUser.email,
+            username: checkUser.username,
+            bio: checkUser.bio,
+            pfp: checkUser.pfp,
+            cover: checkUser.cover,
+        }
+
+        res.status(200).json({
+            success: true, 
+            message: `user logged in.`,
+            user: senduser
+        })
+
+        
+
+    }catch(err){
+        console.log(`❌ getUser controller error :: ${err}`);
+        return res.status(500).json({success: false, message: "Internal server error"});
+    }
+}
+
 export const forgotPassword = async (req, res)=>{
     try{
 

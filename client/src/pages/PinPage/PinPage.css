@@ -70,9 +70,12 @@
 }
 
 
-.pin_header .action_menu div{
+.pin_header .action_menu div,
+.pin_header .action_menu a{
     display: inline-flex;
     align-items: center;
+    color: #555353;
+
 }
 
 .pin_header .action_menu div span{
@@ -82,7 +85,8 @@
     margin-top: -5px;
 }
 
-.pin_header .action_menu div button{
+.pin_header .action_menu div button,
+.pin_header .action_menu div a{
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -96,11 +100,13 @@
     cursor: pointer;
 }
 
-.pin_header .action_menu div button i{
+.pin_header .action_menu div button i,
+.pin_header .action_menu div a i{
     margin-top: 3px;
 }
 
-.pin_header .action_menu div button:hover{
+.pin_header .action_menu div button:hover,
+.pin_header .action_menu div a:hover{
     background: #b4b1b1;
 }
 

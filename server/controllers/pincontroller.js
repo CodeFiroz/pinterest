@@ -21,10 +21,35 @@ export const getPins = async (req, res)=>{
 export const getMyPins = async (req, res)=>{
     try{
 
+        const { username } = req.body;
+        
+
+        const pins = await Pin.find({
+            creator: username
+        }).select("_id image title");
+
+        
+
+        if(!pins){
+            return res.status(400).json({success: false, message: "Failed to fetch pin"});
+        }
+
+        return res.status(200).json({success: true, message: "Pin fetch successfully", pins: pins});
+
+    }catch(err){
+        console.log(`❌ getMyPins controller error :: ${err}`);
+        return res.status(500).json({success: false, message: "Internal server error"});
+    }
+}
+
+
+export const MySavedPin = async (req, res)=>{
+    try{
+
         const { user } = req.user;
 
         const pins = await Pin.find({
-            creator: user_id
+            saved: user._id
         }).select("_id image title");
 
         if(!pins){
@@ -34,10 +59,11 @@ export const getMyPins = async (req, res)=>{
         return res.status(201).json({success: true, message: "Pin fetch successfully", pins: pins});
 
     }catch(err){
-        console.log(`❌ newPin controller error :: ${err}`);
+        console.log(`❌ getMyPins controller error :: ${err}`);
         return res.status(500).json({success: false, message: "Internal server error"});
     }
 }
+
 
 export const newPin = async (req, res) => {
     try {
@@ -57,10 +83,7 @@ export const newPin = async (req, res) => {
         }
 
         
-        const pin = req.file.path;
-
-        console.log(req.file);
-        
+        const pin = req.file.path;        
         
         const newPin = new Pin({
             title,
