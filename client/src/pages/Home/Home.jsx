@@ -1,10 +1,11 @@
 import Pins from '../../components/Pins/Pins'
 import { useState, useEffect } from 'react'
 import { getAllPins } from '../../api/pins'
+import Loader from '../../components/Loader/Loader'
 
 const Home = () => {
-
-  const [pins, setPins] = useState([]); // ✅ Initialize as an array
+  const [pins, setPins] = useState([]); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getPins = async () => {
@@ -16,38 +17,32 @@ const Home = () => {
           return;
         }
 
-        setPins(response.pins || []); // ✅ Ensure it's an array
+        setPins(response.pins || []); 
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching pin details:", error);
+        setLoading(false);
       }
     };
 
     getPins();
   }, []);
 
-  
-
-
   return (
     <>
-      <div className="container">
-
-        <div className="pin-grid">
-
-          {
-              pins.map((pin, index) => (
-                <Pins key={index} img={pin.image} id={pin._id} title={pin.title} />
-              ))
-          }
-
-
-
-
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="container">
+          <div className="pin-grid">
+            {pins.map((pin, index) => (
+              <Pins key={index} img={pin.image} id={pin._id} title={pin.title} />
+            ))}
+          </div>
         </div>
-
-      </div>
+      )}
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;

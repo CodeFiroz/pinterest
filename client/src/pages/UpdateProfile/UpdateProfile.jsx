@@ -11,6 +11,8 @@ const UpdateProfile = () => {
     const { user, Setlogin } = useAuthStore();
     const [loading, setLoading] = useState(false);
 
+
+
     const [error, setError] = useState("");
     const nameRegex = /^[a-zA-Z\s'-]+$/;
 

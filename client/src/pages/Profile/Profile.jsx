@@ -5,10 +5,12 @@ import { Link, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { getMyPins } from '../../api/pins'
 import { getUser } from '../../api/auth'
+import Loader from '../../components/Loader/Loader'
 
 const Profile = () => {
 
     const { user } = useAuthStore();
+    const [loading, setLoading] = useState(true);
 
     const [userinfo, setUserInfo] = useState({});
     const { username } = useParams();
@@ -23,6 +25,7 @@ const Profile = () => {
                     return false;
                 }
                 setUserInfo(response.user);
+                
             } catch (error) {
                 console.error("Error fetching user details:", error);
             }
@@ -41,6 +44,7 @@ const Profile = () => {
                     return false;
                 }
                 setPin(response.pins);
+                setLoading(false);
             } catch (error) {
                 console.error("Error fetching pin details:", error);
             }
@@ -54,58 +58,64 @@ const Profile = () => {
   return (
     <>
 
-<div className="container">
+{loading ? (
+        <Loader />
+      ) : (
+        <div className="container">
 
     
-    <div className="profile_header">
-
-        <div className="profile_info">
-
-            <div className="me">
-                <img src={userinfo.pfp} alt="" />
-                <div>
-                    <h3>{userinfo.name}</h3>
-                    <p>
-                        @{userinfo.username}
-                    </p>
+        <div className="profile_header">
+    
+            <div className="profile_info">
+    
+                <div className="me">
+                    <img src={userinfo.pfp} alt="" />
+                    <div>
+                        <h3>{userinfo.name}</h3>
+                        <p>
+                            @{userinfo.username}
+                        </p>
+                    </div>
                 </div>
-            </div>
-
-            <div className="bio">
+    
+                <div className="bio">
+                    
+                    <pre>{userinfo.bio}</pre>
+                    
+                </div>
+    
+                {
+                    user.id === userinfo.id ? <div className="action-buttons"><Link to="/update">Edit Profile</Link></div> : ''
+                }
+    
                 
-                <pre>{userinfo.bio}</pre>
-                
+    
             </div>
-
+    
+            <div className="feature_image">
+                <img src={userinfo.cover} alt="" />
+            </div>
+    
+    
+        </div>
+    
+    
+            <h4>My Pins</h4>
+    
+            <div className="pin-grid">
+    
             {
-                user.id === userinfo.id ? <div className="action-buttons"><Link to="/update">Edit Profile</Link></div> : ''
-            }
-
-            
-
+                  pins.map((pin, index) => (
+                    <Pins key={index} img={pin.image} id={pin._id} title={pin.title} />
+                  ))
+              }
+    
+            </div>
+    
         </div>
-
-        <div className="feature_image">
-            <img src={userinfo.cover} alt="" />
-        </div>
+      )}
 
 
-    </div>
-
-
-        <h4>My Pins</h4>
-
-        <div className="pin-grid">
-
-        {
-              pins.map((pin, index) => (
-                <Pins key={index} img={pin.image} id={pin._id} title={pin.title} />
-              ))
-          }
-
-        </div>
-
-    </div>
 
     </>
   )

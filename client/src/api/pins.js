@@ -1,6 +1,7 @@
 import axios from "axios"
 
-const axiosLink = "http://localhost:3000/api/pin";
+const axiosLink = `${import.meta.env.VITE_BACKEND_URL_API}/pin`;
+
 
 export const newPin = async (formdata)=>{
    

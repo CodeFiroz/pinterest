@@ -22,7 +22,7 @@ import UpdatePin from "./pages/CreatePin/UpdatePin"
 import About from "./pages/About/About"
 
 function App() {
-  const { isAuthenticated, user, logoutUser, Setlogin } = useAuthStore();
+  const { isAuthenticated, logoutUser } = useAuthStore();
 
 
 
@@ -53,7 +53,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<ProtectRoute><Home /></ProtectRoute>} />
-          <Route path={`/:username`} element={<ProtectRoute><Profile /></ProtectRoute>} /> : ''
+          <Route path={`/:username`} element={<ProtectRoute><Profile /></ProtectRoute>} /> : ``
           
 
           <Route path="/new" element={<ProtectRoute><CreatePin /></ProtectRoute>} />

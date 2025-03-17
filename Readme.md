@@ -100,6 +100,14 @@ EMAIL_PASS = your_email_password
 
 ---
 
+## 🔑 Environment Variables (Client)
+
+Create a `.env` file inside the **client/** folder and add the following:
+
+```env
+VITE_BACKEND_URL_API = your_backedn_url
+```
+
 ## 🚀 Running the Project
 
 ### **1️⃣ Start the Backend**

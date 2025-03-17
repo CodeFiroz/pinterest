@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 
-const axiosLink = "http://localhost:3000/api/auth";
+const axiosLink = `${import.meta.env.VITE_BACKEND_URL_API}/auth`;
 
 export const Signup = async (formdata)=>{
    

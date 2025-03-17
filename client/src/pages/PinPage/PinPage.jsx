@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { getPinDetails, deletePin, LikePin, savePin } from '../../api/pins';
 import useAuthStore from '../../store/authStore'
-
+import Loader from '../../components/Loader/Loader';
 
 const PinPage = () => {
 
@@ -13,6 +13,7 @@ const PinPage = () => {
     const { user } = useAuthStore();
     const userId = user.id;
 
+    const [loading, setLoading] = useState(true);
     const [pin, setPin] = useState({});
     const [likes, setLikes] = useState(0);
     const [liked, setLiked] = useState(false);
@@ -33,6 +34,7 @@ const PinPage = () => {
                 setLikes(pin.likes?.length);
                 setLiked(pin.likes?.includes(userId))
                 setSaved(pin.saved?.includes(userId))
+                setLoading(false)
 
             } catch (error) {
                 console.error("Error fetching pin details:", error);
@@ -81,99 +83,111 @@ const PinPage = () => {
     };
 
 
-    console.log(pin);
+    
     
 
     return (
+   
         <>
-            <div className="pin__wrapper">
+        
+        {
+            loading ? ( <Loader /> ) :
+            (
+                <>
+                <div className="pin__wrapper">
+              
+              <div className="pin_image">
+                  <img src={pin.image} alt="" />
+                  <a className="zoom" onClick={() => setLightBox(true)}>
+                      <i className="bi bi-arrows-angle-expand"></i>
+                  </a>
+              </div>
+              
+              <div className="pin-data">
+              
+                  <div className='pin_post_header'>
+                      <div className="pin_header">
+              
+                          <div className="action_menu">
+                              <div onClick={handleLike}>
+                                  <button className={liked ? 'like' : ''}>
+                                      <i className="bi bi-heart"></i>
+                                  </button>
+                                  <span>{likes}</span>
+                              </div>
+              
+                              <div>
+                                  <a
+                                      href={pin.image}
+                                      download={pin.image} // Extract filename
+                                      title="Download Pin"
+                                  >
+                                      <i className="bi bi-download"></i>
+                                  </a>
+                              </div>
+              
+                          </div>
+              
+                          <div className='right_menu'>
+              
+                              <a href={`/${pin.creator?.username}`}>
+                                  <img src={pin.creator?.pfp} alt={pin.creator?.name} title={pin.creator?.name} />
+                              </a>
+              
+                              <button onClick={handleSaved} className={`save-btn ${saved ? 'saved' : ''}`}>
+                                  {saved ? <>Saved <i className="bi bi-bookmark-fill"></i></> : <>Save <i className="bi bi-pin-angle"></i>    </>}
+                              </button>
+                          </div>
+              
+                      </div>
+              
+                      <h4>
+                          {pin.title}
+                      </h4>
+                      <p>
+                          {pin.description}
+                      </p>
+                  </div>
+              
+                  {
+                      user.id == pin.creator?._id ? <div className="admin-menu">
+              
+                          <button onClick={handleDelete}>
+                              Delete Pin <i className="bi bi-trash-fill"></i>
+                          </button>
+              
+                          <Link to={`/edit/${pin._id}`} >
+                              Edit Pin <i className="bi bi-pen-fill"></i>
+                          </Link>
+              
+              
+                      </div> : ''
+                  }
+              
+              
+              
+              
+              </div>
+              
+              </div>
+              
+              <div className={lightbox ? 'enlarge-image active' : 'enlarge-image'} >
+              
+              <div className="close-icon" onClick={() => setLightBox(false)}>
+                  <i className="bi bi-x-lg"></i>
+              </div>
+              
+              <img src={pin.image} alt={pin.title} />
+              
+              </div>
+                        </>
+            )
 
-                <div className="pin_image">
-                    <img src={pin.image} alt="" />
-                    <a className="zoom" onClick={() => setLightBox(true)}>
-                        <i className="bi bi-arrows-angle-expand"></i>
-                    </a>
-                </div>
-
-                <div className="pin-data">
-
-                    <div className='pin_post_header'>
-                        <div className="pin_header">
-
-                            <div className="action_menu">
-                                <div onClick={handleLike}>
-                                    <button className={liked ? 'like' : ''}>
-                                        <i className="bi bi-heart"></i>
-                                    </button>
-                                    <span>{likes}</span>
-                                </div>
-
-                                <div>
-                                    <a
-                                        href={pin.image}
-                                        download={pin.image} // Extract filename
-                                        title="Download Pin"
-                                    >
-                                        <i className="bi bi-download"></i>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                            <div className='right_menu'>
-
-                                <a href={`/${pin.creator?.username}`}>
-                                    <img src={pin.creator?.pfp} alt={pin.creator?.name} title={pin.creator?.name} />
-                                </a>
-
-                                <button onClick={handleSaved} className={`save-btn ${saved ? 'saved' : ''}`}>
-                                    {saved ? <>Saved <i className="bi bi-bookmark-fill"></i></> : <>Save <i className="bi bi-pin-angle"></i>    </>}
-                                </button>
-                            </div>
-
-                        </div>
-
-                        <h4>
-                            {pin.title}
-                        </h4>
-                        <p>
-                            {pin.description}
-                        </p>
-                    </div>
-
-                    {
-                        user.id == pin.creator?._id ? <div className="admin-menu">
-
-                            <button onClick={handleDelete}>
-                                Delete Pin <i className="bi bi-trash-fill"></i>
-                            </button>
-
-                            <Link to={`/edit/${pin._id}`} >
-                                Edit Pin <i className="bi bi-pen-fill"></i>
-                            </Link>
-
-
-                        </div> : ''
-                    }
-
-
-
-
-                </div>
-
-            </div>
-
-            <div className={lightbox ? 'enlarge-image active' : 'enlarge-image'} >
-
-                <div className="close-icon" onClick={() => setLightBox(false)}>
-                    <i className="bi bi-x-lg"></i>
-                </div>
-
-                <img src={pin.image} alt={pin.title} />
-
-            </div>
-
+        }
+        
         </>
+
+        
     )
 }
 

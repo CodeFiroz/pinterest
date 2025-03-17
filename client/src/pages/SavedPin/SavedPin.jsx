@@ -1,10 +1,12 @@
 import Pins from "../../components/Pins/Pins"
 import { useState, useEffect } from "react"
 import { mySaved } from '../../api/pins'
+import Loader from "../../components/Loader/Loader"
 
 const SavedPin = () => {
 
   const [pin, setPin] = useState([]);
+  const [loading, setLoading] = useState(true);
 
     
   useEffect(() => {
@@ -17,6 +19,7 @@ const SavedPin = () => {
               }
 
               setPin(response.pins);
+              setLoading(false)
           } catch (error) {
               console.error("Error fetching pin details:", error);
           }
@@ -28,8 +31,12 @@ const SavedPin = () => {
 
 
   return (
+
     <>
-     <div className="container">
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="container">
 
         <div className="title">
             <h1>Saved Pins</h1>
@@ -46,7 +53,8 @@ const SavedPin = () => {
 
       
         </div>
-    </div> 
+    </div>
+      )}
     </>
   )
 }

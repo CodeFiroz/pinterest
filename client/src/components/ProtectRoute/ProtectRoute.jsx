@@ -6,13 +6,13 @@ const ProtectRoute = ({ children }) => {
     const { isAuthenticated } = useAuthStore();
     const navigate = useNavigate();
 
+
     useEffect(() => {
         if (!isAuthenticated) {
             navigate("/sign-in");
         }
     }, [isAuthenticated, navigate]);
 
-    // Only render children if authenticated
     return isAuthenticated ? children : null;
 };
 
