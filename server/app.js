@@ -27,10 +27,18 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(cors({
-  "origin": [ClientUrl],
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-}));
+    origin: (origin, callback) => {
+      if (!origin || origin === ClientUrl) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"]
+  }));
+  
 
 // config middlewares
 
