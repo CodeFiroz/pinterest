@@ -30,9 +30,11 @@ function App() {
    const verifyUser = async()=>{
       const response = await verify();
       
-     if(!response.success){
-      logoutUser();
-     }
+      console.log(response);
+
+    //  if(!response.success){
+    //   logoutUser();
+    //  }
 
    }
 

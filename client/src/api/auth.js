@@ -203,7 +203,7 @@ export const UpdateProfileInfo = async (formdata)=>{
 
 export const verify = async ()=>{
     try{
-        const response = await axios.get(
+        const response = await axios.post(
            `${axiosLink}/verify`, 
             {
                 withCredentials: true

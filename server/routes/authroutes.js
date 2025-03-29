@@ -13,6 +13,6 @@ router.post("/forgot-password", forgotPassword)
 router.post("/reset-password/:token", resetPassword)
 router.post("/update", protectRoute, upload.fields([{ name: "pfp" }, { name: "cover" }]), updateProfile)
 router.get("/logout", logout)
-router.get("/verify", protectRoute,  verifyAuth)
+router.post("/verify", protectRoute,  verifyAuth)
 
 export default router;
