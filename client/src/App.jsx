@@ -32,9 +32,9 @@ function App() {
       
       console.log(response);
 
-    //  if(!response.success){
-    //   logoutUser();
-    //  }
+     if(!response.success){
+      logoutUser();
+     }
 
    }
 
